@@ -1,0 +1,3848 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🐱 Save The Cat — Side Story</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        image-rendering: pixelated;
+      }
+
+      body {
+        background: #161832;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        font-family: "VT323", monospace;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+
+      /* Website Header Bar */
+      .site-header {
+        width: 100%;
+        background: rgba(15, 16, 35, 0.95);
+        border-bottom: 2px solid rgba(100, 100, 160, 0.3);
+        backdrop-filter: blur(10px);
+        padding: 14px 28px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        z-index: 500;
+        margin-bottom: 25px;
+      }
+
+      .site-logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+      }
+
+      .site-logo-badge {
+        background: linear-gradient(135deg, #FF3B30, #FFC93C);
+        color: #000;
+        font-family: "Press Start 2P", cursive;
+        font-size: 14px;
+        padding: 6px 10px;
+        border-radius: 8px;
+        box-shadow: 0 0 12px rgba(255, 59, 48, 0.4);
+      }
+
+      .site-title {
+        color: #FFF;
+        font-family: "Press Start 2P", cursive;
+        font-size: 13px;
+        letter-spacing: 1px;
+      }
+
+      .site-nav {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .nav-link {
+        color: #AADDFF;
+        text-decoration: none;
+        font-size: 18px;
+        transition: color 0.2s;
+      }
+
+      .nav-link:hover {
+        color: #FFC93C;
+      }
+
+      .header-cta {
+        background: linear-gradient(135deg, #FF3B30, #D32F2F);
+        color: #FFF;
+        text-decoration: none;
+        font-family: "Press Start 2P", cursive;
+        font-size: 10px;
+        padding: 8px 16px;
+        border-radius: 6px;
+        transition: all 0.2s;
+        box-shadow: 0 3px 10px rgba(255, 59, 48, 0.3);
+      }
+
+      .header-cta:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 59, 48, 0.5);
+      }
+
+      .game-wrapper {
+        position: relative;
+        max-width: 900px;
+        width: 95%;
+        margin: 0 auto 20px auto;
+        border: 3px solid rgba(70, 70, 110, 0.5);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 0 50px rgba(100, 120, 200, 0.15);
+      }
+
+      .top-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+        pointer-events: none;
+      }
+
+      .top-bar-left {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        pointer-events: auto;
+      }
+
+      .time-toggle {
+        background: rgba(10, 10, 30, 0.4);
+        border: 1.5px solid rgba(100, 100, 160, 0.4);
+        border-radius: 10px;
+        color: #fff;
+        font-size: 12px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        transition: all 0.2s;
+        -webkit-tap-highlight-color: transparent;
+        font-family: "Press Start 2P", cursive;
+        backdrop-filter: blur(6px);
+      }
+
+      .time-toggle:hover {
+        background: rgba(10, 10, 30, 0.6);
+        transform: scale(1.05);
+      }
+
+      .time-icon {
+        font-size: 16px;
+      }
+
+      .time-label {
+        font-size: 8px;
+      }
+
+      #gameCanvas {
+        display: block;
+        width: 100%;
+        height: auto;
+        background: #87ceeb;
+      }
+
+      .controls-hint {
+        color: #888;
+        font-size: 14px;
+        margin-top: 15px;
+        text-align: center;
+        font-family: "VT323", monospace;
+      }
+
+      .controls-hint span {
+        color: #ffd700;
+        background: #333;
+        padding: 2px 8px;
+        border-radius: 3px;
+        margin: 0 3px;
+      }
+
+      /* Dialog Box */
+      .dialog-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 100;
+        padding: 10px;
+      }
+
+      .dialog-overlay.active {
+        display: flex;
+      }
+
+      .dialog-box {
+        background: rgba(36, 36, 68, 0.95);
+        backdrop-filter: blur(12px);
+        border: 2px solid rgba(100, 100, 160, 0.35);
+        border-radius: 12px;
+        padding: 22px 26px;
+        max-width: 380px;
+        width: 100%;
+        color: #fff;
+        font-family: "VT323", monospace;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+        animation: dialogPop 0.2s ease-out;
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+
+      @keyframes dialogPop {
+        from {
+          transform: scale(0.8);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      .dialog-title {
+        font-family: "Press Start 2P", cursive;
+        font-size: 12px;
+        color: #ffd700;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .dialog-title .icon {
+        font-size: 18px;
+      }
+
+      .dialog-content {
+        font-size: 18px;
+        line-height: 1.6;
+        color: #ddd;
+        margin-bottom: 20px;
+        white-space: pre-line;
+      }
+
+      .dialog-content .rule {
+        display: block;
+        margin: 8px 0;
+        padding-left: 15px;
+        color: #aaddff;
+      }
+
+      .dialog-content .rule::before {
+        content: "▸ ";
+        color: #ffd700;
+      }
+
+      .dialog-buttons {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+      }
+
+      .dialog-btn {
+        font-family: "Press Start 2P", cursive;
+        font-size: 10px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.2s;
+        -webkit-tap-highlight-color: transparent;
+        min-width: 80px;
+        touch-action: manipulation;
+      }
+
+      .dialog-btn.primary {
+        background: linear-gradient(135deg, #4a8c5c, #3a7a4c);
+        color: white;
+        box-shadow: 0 3px 12px rgba(74, 140, 92, 0.25);
+      }
+
+      .dialog-btn.primary:hover {
+        background: linear-gradient(135deg, #5aaa6c, #4a9a5c);
+        transform: translateY(-2px);
+      }
+
+      .dialog-btn.primary:active {
+        background: #3a6c49;
+        transform: translateY(0);
+      }
+
+      .dialog-btn.secondary {
+        background: rgba(70, 70, 110, 0.6);
+        color: #ccc;
+      }
+
+      .dialog-btn.secondary:hover {
+        background: rgba(90, 90, 130, 0.7);
+      }
+
+      .dialog-btn.secondary:active {
+        background: rgba(55, 55, 90, 0.7);
+      }
+
+      .whatsapp-btn {
+        display: none;
+        width: 100%;
+        padding: 12px 20px;
+        background: #25d366;
+        color: #fff;
+        border: 3px solid #128c7e;
+        border-radius: 8px;
+        font-family: "Press Start 2P", cursive;
+        font-size: 9px;
+        cursor: pointer;
+        margin-bottom: 10px;
+        text-decoration: none;
+        text-align: center;
+        transition: all 0.2s;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+      }
+
+      .whatsapp-btn:hover {
+        background: #128c7e;
+        transform: scale(1.02);
+      }
+
+      .whatsapp-btn:active {
+        background: #0f7a6d;
+        transform: scale(0.98);
+      }
+
+      .whatsapp-btn .wa-icon {
+        font-size: 14px;
+        margin-right: 8px;
+      }
+
+      /* Code Input */
+      .code-input-wrapper {
+        margin: 15px 0;
+      }
+
+      .code-input {
+        font-family: "Press Start 2P", cursive;
+        font-size: 14px;
+        padding: 12px 15px;
+        width: 100%;
+        background: rgba(20, 20, 40, 0.7);
+        border: 2px solid rgba(100, 100, 160, 0.4);
+        border-radius: 8px;
+        color: #ffc845;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+      }
+
+      .code-input:focus {
+        outline: none;
+        border-color: rgba(140, 140, 200, 0.6);
+        box-shadow: 0 0 12px rgba(140, 140, 200, 0.15);
+      }
+
+      .code-input::placeholder {
+        color: #555;
+        letter-spacing: 1px;
+      }
+
+      /* Ending Screen */
+      .ending-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #161832;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        z-index: 200;
+        opacity: 0;
+        transition: opacity 1s ease;
+      }
+
+      .ending-overlay.active {
+        display: flex;
+      }
+
+      .ending-overlay.visible {
+        opacity: 1;
+      }
+
+      .ending-text {
+        font-family: "VT323", monospace;
+        font-size: 18px;
+        color: #bbb;
+        text-align: center;
+        line-height: 1.5;
+        max-width: 680px;
+        padding: 28px 32px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 16px;
+        border: 1.5px solid rgba(136, 204, 255, 0.2);
+        box-shadow: 0 0 40px rgba(136, 204, 255, 0.1);
+      }
+
+      .ending-text .main {
+        color: #88ccff;
+        font-size: 26px;
+        margin-bottom: 8px;
+        font-weight: bold;
+        text-shadow: 0 0 10px rgba(136, 204, 255, 0.5);
+        animation: fadeInDown 1s ease-out;
+      }
+
+      .ending-text .cat-emoji {
+        animation: bounceIn 1s ease-out;
+      }
+
+      .ending-text .line1 {
+        animation: fadeIn 1.2s ease-out 0.3s backwards;
+      }
+
+      .ending-text .line2 {
+        animation: fadeIn 1.2s ease-out 0.6s backwards;
+      }
+
+      .ending-text .question {
+        animation: fadeIn 1.2s ease-out 0.9s backwards;
+      }
+
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes bounceIn {
+        0% {
+          opacity: 0;
+          transform: scale(0.3);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        70% {
+          transform: scale(0.9);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      @keyframes buttonGlow {
+        0%,
+        100% {
+          box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+        }
+        50% {
+          box-shadow: 0 6px 30px rgba(37, 211, 102, 0.7);
+        }
+      }
+
+      .wa-button {
+        margin-top: 18px;
+        padding: 12px 28px;
+        background: linear-gradient(135deg, #25d366, #128c7e);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        font-family: "Press Start 2P", cursive;
+        font-size: 11px;
+        cursor: pointer;
+        box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        animation:
+          fadeIn 1.2s ease-out 1.2s backwards,
+          buttonGlow 2s ease-in-out infinite;
+        align-items: center;
+        gap: 10px;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .wa-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(37, 211, 102, 0.6);
+        background: linear-gradient(135deg, #2ee673, #15a889);
+      }
+
+      .wa-button:active {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 15px rgba(37, 211, 102, 0.5);
+      }
+
+      /* Intro Overlay */
+      .intro-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #121230, #2a2660, #1e1e40);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        z-index: 300;
+        opacity: 1;
+        transition: opacity 0.8s ease;
+        padding: 20px;
+      }
+
+      .intro-overlay.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .intro-content {
+        max-width: 700px;
+        text-align: center;
+        color: #fff;
+      }
+
+      .intro-title {
+        font-family: "Press Start 2P", cursive;
+        font-size: 28px;
+        color: #88ccff;
+        margin-bottom: 20px;
+        text-shadow: 0 0 20px rgba(136, 204, 255, 0.8);
+        animation: glow 2s ease-in-out infinite;
+      }
+
+      @keyframes glow {
+        0%,
+        100% {
+          text-shadow: 0 0 20px rgba(136, 204, 255, 0.8);
+        }
+        50% {
+          text-shadow:
+            0 0 30px rgba(136, 204, 255, 1),
+            0 0 40px rgba(136, 204, 255, 0.6);
+        }
+      }
+
+      .narrative-text {
+        font-family: "VT323", monospace;
+        font-size: 22px;
+        line-height: 1.6;
+        color: #ddd;
+        margin-bottom: 30px;
+        min-height: 120px;
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        border: 1px solid rgba(136, 204, 255, 0.2);
+      }
+
+      .typing-cursor {
+        display: inline-block;
+        width: 8px;
+        height: 20px;
+        background: #88ccff;
+        margin-left: 4px;
+        animation: blink 0.8s infinite;
+      }
+
+      @keyframes blink {
+        0%,
+        50% {
+          opacity: 1;
+        }
+        51%,
+        100% {
+          opacity: 0;
+        }
+      }
+
+      .tutorials {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin-bottom: 25px;
+        opacity: 0;
+        animation: fadeIn 0.8s ease-out 4s forwards;
+      }
+
+      .tutorial-item {
+        background: rgba(0, 0, 0, 0.4);
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid rgba(136, 204, 255, 0.3);
+        font-family: "VT323", monospace;
+        font-size: 16px;
+        color: #ccc;
+      }
+
+      .tutorial-icon {
+        font-size: 24px;
+        margin-bottom: 5px;
+      }
+
+      .start-button {
+        font-family: "Press Start 2P", cursive;
+        font-size: 14px;
+        padding: 15px 40px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        box-shadow: 0 6px 25px rgba(102, 126, 234, 0.5);
+        transition: all 0.3s ease;
+        opacity: 0;
+        animation:
+          fadeIn 0.8s ease-out 4.5s forwards,
+          pulse 2s ease-in-out 5s infinite;
+      }
+
+      .start-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 30px rgba(102, 126, 234, 0.7);
+      }
+
+      .start-button:active {
+        transform: translateY(-1px);
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+      }
+
+      /* Interaction Prompt */
+      .interact-prompt {
+        position: absolute;
+        display: none;
+        pointer-events: none;
+        z-index: 50;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        transform-origin: center;
+      }
+
+      .interact-prompt.visible {
+        display: flex;
+        animation: promptBounce 0.5s ease-in-out infinite;
+      }
+
+      .prompt-icon {
+        background: #ffd700;
+        color: #000;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 16px;
+        box-shadow: 0 2px 8px rgba(255, 215, 0, 0.5);
+      }
+
+      .prompt-text {
+        background: rgba(0, 0, 0, 0.8);
+        color: #ffd700;
+        font-family: "Press Start 2P", cursive;
+        font-size: 8px;
+        padding: 6px 10px;
+        border-radius: 4px;
+        white-space: nowrap;
+        border: 2px solid #ffd700;
+      }
+
+      @keyframes promptBounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-5px);
+        }
+      }
+
+      /* Mobile Controls */
+      .mobile-controls {
+        display: none;
+        margin-top: 20px;
+        gap: 8px;
+        padding: 10px;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .mobile-btn {
+        width: 58px;
+        height: 58px;
+        background: rgba(55, 55, 90, 0.75);
+        border: 2px solid rgba(100, 100, 160, 0.6);
+        border-radius: 14px;
+        color: #fff;
+        font-size: 28px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+        transition: all 0.1s;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        font-family: "Press Start 2P", cursive;
+        font-size: 12px;
+        backdrop-filter: blur(6px);
+      }
+
+      .mobile-btn:active {
+        background: #5a5a8a;
+        transform: scale(0.92);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+      }
+
+      .mobile-btn.action {
+        background: rgba(74, 140, 92, 0.7);
+        font-size: 20px;
+      }
+
+      .mobile-btn.action:active {
+        background: #5a9c69;
+      }
+
+      .mobile-btn.jump {
+        background: rgba(65, 105, 185, 0.7);
+        border-color: rgba(100, 140, 210, 0.6);
+      }
+
+      .mobile-btn.jump:active {
+        background: #5a82c8;
+      }
+
+      .mobile-btn.attack {
+        background: rgba(190, 50, 50, 0.7);
+        border-color: rgba(225, 75, 75, 0.6);
+      }
+
+      .mobile-btn.attack:active {
+        background: #c62828;
+      }
+
+      .mobile-btn::before {
+        content: attr(data-label);
+        font-size: 22px;
+      }
+
+      @media (max-width: 800px) {
+        .mobile-controls {
+          display: flex;
+          position: absolute;
+          bottom: 15px;
+          left: 0;
+          right: 0;
+          z-index: 90;
+          margin: 0;
+          padding: 0 15px;
+        }
+        .controls-hint {
+          display: none;
+        }
+
+        body {
+          padding: 0;
+          justify-content: flex-start;
+        }
+
+        .game-wrapper {
+          width: 100vw;
+          height: 100vh;
+          height: 100dvh;
+          border: none;
+          border-radius: 0;
+          box-shadow: none;
+          overflow: hidden;
+        }
+
+        #gameCanvas {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .music-toggle {
+          display: none;
+        }
+
+        .icon-btn {
+          width: 44px;
+          height: 44px;
+          font-size: 20px;
+        }
+
+        .top-bar {
+          padding: 12px;
+        }
+
+        .time-toggle {
+          padding: 8px 12px;
+        }
+
+        .time-icon {
+          font-size: 16px;
+        }
+
+        .time-label {
+          font-size: 7px;
+        }
+
+        .dialog-overlay {
+          padding: 15px;
+        }
+
+        .dialog-box {
+          padding: 18px;
+          margin: 10px;
+          max-height: 70vh;
+        }
+
+        .dialog-title {
+          font-size: 11px;
+        }
+
+        .dialog-content {
+          font-size: 18px;
+        }
+
+        .dialog-btn {
+          font-size: 10px;
+          padding: 12px 20px;
+          min-width: 90px;
+        }
+
+        .whatsapp-btn {
+          padding: 12px 16px;
+          font-size: 9px;
+        }
+
+        .prompt-icon {
+          width: 28px;
+          height: 28px;
+          font-size: 18px;
+        }
+
+        .prompt-text {
+          font-size: 10px;
+          padding: 8px 12px;
+        }
+
+        .intro-overlay {
+          padding: 15px;
+        }
+
+        .intro-title {
+          font-size: 20px;
+          margin-bottom: 12px;
+        }
+
+        .narrative-text {
+          font-size: 18px;
+          min-height: 80px;
+          padding: 15px;
+          margin-bottom: 15px;
+        }
+
+        .tutorials {
+          gap: 8px;
+          margin-bottom: 15px;
+        }
+
+        .tutorial-item {
+          padding: 8px;
+          font-size: 13px;
+        }
+
+        .tutorial-icon {
+          font-size: 18px;
+          margin-bottom: 3px;
+        }
+
+        .start-button {
+          font-size: 12px;
+          padding: 12px 30px;
+        }
+
+        .ending-text {
+          padding: 20px;
+          max-width: 90vw;
+        }
+
+        .ending-text .main {
+          font-size: 22px;
+        }
+      }
+
+      @media (max-width: 500px) {
+        .mobile-btn {
+          width: 52px;
+          height: 52px;
+        }
+
+        .mobile-controls {
+          gap: 6px;
+          padding: 0 8px;
+        }
+
+        .dialog-title {
+          font-size: 10px;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 5px;
+        }
+
+        .dialog-buttons {
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .dialog-btn {
+          width: 100%;
+        }
+      }
+
+      @media (orientation: landscape) and (max-height: 500px) {
+        body {
+          overflow-y: auto;
+        }
+
+        .game-wrapper {
+          margin: 0;
+          width: 100vw;
+          height: 100vh;
+        }
+
+        .mobile-controls {
+          bottom: 10px;
+        }
+      }
+      /* ==================== LANDING SECTIONS UI/UX ==================== */
+      .landing-container {
+        width: 100%;
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 40px 20px 80px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 70px;
+      }
+
+      .service-section {
+        scroll-margin-top: 90px;
+        background: rgba(20, 22, 48, 0.75);
+        border: 1px solid rgba(100, 100, 160, 0.25);
+        border-radius: 20px;
+        padding: 45px 35px;
+        backdrop-filter: blur(12px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.3s ease, border-color 0.3s ease;
+      }
+
+      .service-section:hover {
+        border-color: rgba(255, 215, 0, 0.4);
+        transform: translateY(-4px);
+      }
+
+      .service-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, #FF3B30, #FFC93C, #88CCFF);
+      }
+
+      .section-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255, 215, 0, 0.12);
+        color: #FFD700;
+        border: 1px solid rgba(255, 215, 0, 0.3);
+        font-family: "Press Start 2P", cursive;
+        font-size: 10px;
+        padding: 6px 14px;
+        border-radius: 50px;
+        margin-bottom: 18px;
+        text-transform: uppercase;
+      }
+
+      .section-title {
+        color: #FFFFFF;
+        font-family: "Press Start 2P", cursive;
+        font-size: 20px;
+        line-height: 1.4;
+        margin-bottom: 16px;
+      }
+
+      .section-desc {
+        color: #B8C2D8;
+        font-size: 18px;
+        line-height: 1.6;
+        max-width: 850px;
+        margin-bottom: 35px;
+      }
+
+      .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 24px;
+        margin-bottom: 35px;
+      }
+
+      .card-item {
+        background: rgba(12, 14, 30, 0.6);
+        border: 1px solid rgba(100, 120, 180, 0.2);
+        border-radius: 14px;
+        padding: 24px;
+        transition: all 0.3s ease;
+      }
+
+      .card-item:hover {
+        background: rgba(25, 28, 60, 0.8);
+        border-color: #88CCFF;
+        transform: translateY(-3px);
+      }
+
+      .card-icon {
+        font-size: 32px;
+        margin-bottom: 14px;
+      }
+
+      .card-title {
+        color: #FFF;
+        font-family: "Press Start 2P", cursive;
+        font-size: 11px;
+        margin-bottom: 10px;
+        line-height: 1.4;
+      }
+
+      .card-text {
+        color: #A0ABC0;
+        font-size: 16px;
+        line-height: 1.5;
+      }
+
+      .metrics-banner {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        background: linear-gradient(135deg, rgba(255, 59, 48, 0.1), rgba(255, 201, 60, 0.1));
+        border: 1px solid rgba(255, 201, 60, 0.3);
+        border-radius: 14px;
+        padding: 24px;
+        text-align: center;
+        margin-bottom: 35px;
+      }
+
+      .metric-value {
+        font-family: "Press Start 2P", cursive;
+        font-size: 22px;
+        color: #FFC93C;
+        margin-bottom: 8px;
+      }
+
+      .metric-label {
+        color: #CCC;
+        font-size: 15px;
+      }
+
+      .section-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        background: linear-gradient(135deg, #FF3B30, #D32F2F);
+        color: #FFFFFF;
+        text-decoration: none;
+        font-family: "Press Start 2P", cursive;
+        font-size: 10px;
+        padding: 14px 28px;
+        border-radius: 50px;
+        box-shadow: 0 6px 20px rgba(255, 59, 48, 0.4);
+        transition: all 0.3s ease;
+      }
+
+      .section-cta:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 28px rgba(255, 59, 48, 0.6);
+        background: linear-gradient(135deg, #FF5247, #E53935);
+      }
+
+      .portfolio-tags {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 18px;
+      }
+
+      .port-tag {
+        background: rgba(100, 120, 180, 0.2);
+        color: #88CCFF;
+        font-family: "Press Start 2P", cursive;
+        font-size: 8px;
+        padding: 6px 12px;
+        border-radius: 20px;
+      }
+
+      .site-footer {
+        width: 100%;
+        background: rgba(10, 11, 25, 0.98);
+        border-top: 1px solid rgba(100, 100, 160, 0.3);
+        padding: 40px 20px;
+        text-align: center;
+        color: #888;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Website Navigation Header -->
+    <header class="site-header">
+      <a href="#" class="site-logo">
+        <span class="site-logo-badge">🎭 CEPOTECH</span>
+        <span class="site-title">SOFTWARE HOUSE</span>
+      </a>
+
+      <nav class="site-nav">
+        <a href="#sec-web" class="nav-link">Services</a>
+        <a href="#sec-portfolio" class="nav-link">Portfolio</a>
+        <a href="#sec-academy" class="nav-link">Academy</a>
+        <a href="https://wa.me/6285777203153" target="_blank" class="header-cta">GET IN TOUCH</a>
+      </nav>
+    </header>
+
+    <div class="game-wrapper">
+      <div class="top-bar">
+        <div class="top-bar-left">
+          <button class="time-toggle" id="timeToggle" title="Change Time">
+            <span class="time-icon" id="timeIcon">☀️</span>
+            <span class="time-label" id="timeLabel">PAGI</span>
+          </button>
+        </div>
+      </div>
+
+      <canvas id="gameCanvas" width="800" height="400"></canvas>
+
+      <!-- Intro Overlay Removed -->
+      <div class="interact-prompt" id="interactPrompt">
+        <div class="prompt-icon">!</div>
+        <div class="prompt-text">CLICK</div>
+      </div>
+
+      <!-- Dialog Overlay -->
+      <div class="dialog-overlay" id="dialogOverlay">
+        <div class="dialog-box">
+          <div class="dialog-title">
+            <span class="icon" id="dialogIcon">📕</span>
+            <span id="dialogTitle">Judul</span>
+          </div>
+          <div class="dialog-content" id="dialogContent">Konten dialog</div>
+          
+          <a
+            href="https://wa.me/6285777203153?text=Halo%20Cepotech,%20saya%20ingin%20order%20/%20konsultasi%20layanan"
+            target="_blank"
+            class="whatsapp-btn"
+            id="whatsappBtn"
+            style="display: none"
+          >
+            <span class="wa-icon">💬</span>Order / Konsultasi via WhatsApp
+          </a>
+
+          <div class="dialog-buttons" id="dialogButtons">
+            <button class="dialog-btn secondary" id="btnSecondary">
+              Tutup
+            </button>
+            <button class="dialog-btn primary" id="btnPrimary">OK</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ending Overlay -->
+      <div class="ending-overlay" id="endingOverlay">
+        <div class="ending-text">
+          <div class="cat-emoji" style="font-size: 38px; margin-bottom: 8px">
+            🐱
+          </div>
+          <div class="main">
+            Congrats, kamu berhasil<br />nyelametin si kucing
+          </div>
+          <div
+            class="line1"
+            style="color: #ccc; font-size: 19px; margin: 8px 0"
+          >
+            Kayaknya dia aman sekarang…
+          </div>
+          <div
+            class="line2"
+            style="color: #aaa; font-size: 17px; margin: 10px 0 6px 0"
+          >
+            tapi aku masih penasaran:
+          </div>
+          <div
+            class="question"
+            style="
+              color: #88ccff;
+              font-size: 19px;
+              margin-top: 6px;
+              font-weight: bold;
+              text-shadow: 0 0 8px rgba(136, 204, 255, 0.4);
+            "
+          >
+            menurut kamu, dia bakal hidup<br />paling bahagia sama siapa?
+          </div>
+          <button
+            class="wa-button"
+            onclick="window.open('https://wa.me/6285777203153', '_blank')"
+          >
+            <span style="font-size: 16px">💬</span>
+            Lanjutin ceritanya di WhatsApp
+          </button>
+          <br />
+          <button
+            class="wa-button"
+            onclick="window.location.href='episode2.html'"
+            style="background: linear-gradient(135deg, #667eea, #764ba2); box-shadow: 0 6px 20px rgba(102,126,234,0.4); animation-delay: 1.5s;"
+          >
+            <span style="font-size: 14px">▶</span>
+            Episode 2: Home Sweet Home
+          </button>
+          <br />
+          <button
+            class="wa-button"
+            onclick="window.location.href='menu.html'"
+            style="background: linear-gradient(135deg, #4a4a6a, #5a5a8a); box-shadow: 0 6px 20px rgba(90,90,138,0.3); animation-delay: 1.8s; font-size: 9px;"
+          >
+            <span style="font-size: 14px">🏠</span>
+            Kembali ke Menu
+          </button>
+        </div>
+      </div>
+
+      <div class="mobile-controls">
+        <button
+          class="mobile-btn"
+          id="btnLeft"
+          data-label="◀"
+          aria-label="Gerak Kiri"
+        ></button>
+        <button
+          class="mobile-btn jump"
+          id="btnJump"
+          data-label="⬆"
+          aria-label="Lompat"
+        ></button>
+        <button
+          class="mobile-btn action"
+          id="btnAction"
+          data-label="E"
+          aria-label="Interaksi"
+        ></button>
+        <button
+          class="mobile-btn"
+          id="btnRight"
+          data-label="▶"
+          aria-label="Gerak Kanan"
+        ></button>
+      </div>
+    </div>
+
+    <p class="controls-hint" id="controlsHint">
+      <span>←</span> <span>→</span> Jalan &nbsp;&nbsp; <span>Click</span>
+      Interaksi &nbsp;&nbsp; <span>Space</span> Lompat
+    </p>
+
+    <!-- ==================== LANDING PAGE SECTIONS ==================== -->
+    <main class="landing-container">
+      <!-- Section 1: Website & Web Apps -->
+      <section class="service-section" id="sec-web">
+        <div class="section-badge">🌐 HERO SERVICE</div>
+        <h2 class="section-title">1. Website & Web Applications</h2>
+        <p class="section-desc">
+          Kami membangun website modern berkecepatan tinggi, landing page dengan konversi maksimal, serta aplikasi berbasis web enterprise yang responsif dan memukau.
+        </p>
+
+        <div class="cards-grid">
+          <div class="card-item">
+            <div class="card-icon">⚡</div>
+            <h3 class="card-title">High Performance</h3>
+            <p class="card-text">Dioptimasi dengan teknologi modern (Next.js & React) untuk waktu muat kurang dari 1 detik.</p>
+          </div>
+          <div class="card-item">
+            <div class="card-icon">🎨</div>
+            <h3 class="card-title">Modern Design System</h3>
+            <p class="card-text">Desain eksklusif berestetika tinggi, micro-animations, serta pengalaman pengguna yang intuitif.</p>
+          </div>
+          <div class="card-item">
+            <div class="card-icon">🔍</div>
+            <h3 class="card-title">SEO & Mobile Ready</h3>
+            <p class="card-text">Struktur kode ramah mesin pencari (SEO On-Page) dan 100% sempurna di semua layar HP.</p>
+          </div>
+        </div>
+
+        <a href="https://wa.me/6285777203153?text=Halo%20Cepotech,%20saya%20tertarik%20dengan%20layanan%20Website%20%26%20Web%20Apps" target="_blank" class="section-cta">
+          <span>💬</span> Konsultasi Proyek Website via WhatsApp
+        </a>
+      </section>
+
+      <!-- Section 2: Business Systems -->
+      <section class="service-section" id="sec-systems">
+        <div class="section-badge">⚙️ ENTERPRISE SYSTEMS</div>
+        <h2 class="section-title">2. Business Systems (ERP, POS, CRM, Inventory)</h2>
+        <p class="section-desc">
+          Sederhanakan dan otomatisasi seluruh alur kerja operasional bisnis Anda dengan perangkat lunak kustom yang dirancang sesuai kebutuhan perusahaan Anda.
+        </p>
+
+        <div class="cards-grid">
+          <div class="card-item">
+            <div class="card-icon">💼</div>
+            <h3 class="card-title">Custom ERP</h3>
+            <p class="card-text">Integrasi modul keuangan, SDM, pembukuan, & manajemen aset terpusat.</p>
+          </div>
+          <div class="card-item">
+            <div class="card-icon">🛒</div>
+            <h3 class="card-title">Smart POS Kasir</h3>
+            <p class="card-text">Sistem kasir multi-cabang realtime dengan laporan penjualan instan & offline sync.</p>
+          </div>
+          <div class="card-item">
+            <div class="card-icon">🤝</div>
+            <h3 class="card-title">CRM Lead Pipeline</h3>
+            <p class="card-text">Kelola riwayat pelanggan, otomasi pesan followup, & lacak progres tim sales Anda.</p>
+          </div>
+          <div class="card-item">
+            <div class="card-icon">📦</div>
+            <h3 class="card-title">Inventory Management</h3>
+            <p class="card-text">Sistem pergudangan otomatis dengan alarm stok menipis dan barcode scanner.</p>
+          </div>
+        </div>
+
+        <a href="https://wa.me/6285777203153?text=Halo%20Cepotech,%20saya%20butuh%20sistem%20bisnis%20(ERP/POS/CRM/Inventory)" target="_blank" class="section-cta">
+          <span>💬</span> Konsultasi Sistem Bisnis via WhatsApp
+        </a>
+      </section>
+
+      <!-- Section 3: Digital Growth -->
+      <section class="service-section" id="sec-growth">
+        <div class="section-badge">📈 PERFORMANCE MARKETING</div>
+        <h2 class="section-title">3. Digital Growth (Ads, SEO, Analytics)</h2>
+        <p class="section-desc">
+          Akselerasi pertumbuhan bisnis Anda melalui iklan terukur, rangking mesin pencari organik, dan analisis data konversi untuk hasil nyata yang terbukti.
+        </p>
+
+        <div class="metrics-banner">
+          <div>
+            <div class="metric-value">+350%</div>
+            <div class="metric-label">Pertumbuhan Trafik Organik</div>
+          </div>
+          <div>
+            <div class="metric-value">4.8x</div>
+            <div class="metric-label">Rata-Rata ROAS Iklan</div>
+          </div>
+          <div>
+            <div class="metric-value">99.2%</div>
+            <div class="metric-label">Retensi Kepuasan Klien</div>
+          </div>
+        </div>
+
+        <div class="cards-grid">
+          <div class="card-item">
+            <div class="card-icon">🎯</div>
+            <h3 class="card-title">Google & Meta Ads</h3>
+            <p class="card-text">Kampanye iklan bertarget tinggi dengan optimasi algoritma pembeli potensial.</p>
+          </div>
+          <div class="card-item">
+            <div class="card-icon">🚀</div>
+            <h3 class="card-title">Organic SEO Strategy</h3>
+            <p class="card-text">Dominasi halaman pertama Google untuk kata kunci bernilai tinggi usaha Anda.</p>
+          </div>
+          <div class="card-item">
+            <div class="card-icon">📊</div>
+            <h3 class="card-title">Conversion Analytics</h3>
+            <p class="card-text">Dashboard analytics real-time untuk memantau performa bisnis dan ROI secara akurat.</p>
+          </div>
+        </div>
+
+        <a href="https://wa.me/6285777203153?text=Halo%20Cepotech,%20saya%20ingin%20konsultasi%20Digital%20Growth" target="_blank" class="section-cta">
+          <span>💬</span> Akselerasi Growth Bisnis via WhatsApp
+        </a>
+      </section>
+
+      <!-- Section 4: Academy -->
+      <section class="service-section" id="sec-academy">
+        <div class="section-badge">🎓 EDUCATION & ADVISORY</div>
+        <h2 class="section-title">4. Tech Academy & Consulting</h2>
+        <p class="section-desc">
+          Program bimbingan intensif 1-on-1, Masterclass Software Engineering, serta konsultasi arsitektur IT Enterprise bersama praktisi ahli Cepotech.
+        </p>
+
+        <div class="cards-grid">
+          <div class="card-item">
+            <div class="card-icon">👨‍💻</div>
+            <h3 class="card-title">Fullstack Engineering Track</h3>
+            <p class="card-text">Bimbingan koding dari dasar hingga mahir membangun aplikasi modern skala industri.</p>
+          </div>
+          <div class="card-item">
+            <div class="card-icon">🏛️</div>
+            <h3 class="card-title">System Architecture Advisory</h3>
+            <p class="card-text">Konsultasi audit arsitektur cloud, keamanan data, & skalabilitas infrastruktur IT.</p>
+          </div>
+          <div class="card-item">
+            <div class="card-icon">💡</div>
+            <h3 class="card-title">CTO as a Service</h3>
+            <p class="card-text">Pendampingan strategis pemilihan teknologi & manajemen tim developer untuk startup Anda.</p>
+          </div>
+        </div>
+
+        <a href="https://wa.me/6285777203153?text=Halo%20Cepotech,%20saya%20tertarik%20dengan%20Academy%20%26%20Consulting" target="_blank" class="section-cta">
+          <span>💬</span> Info Masterclass & Konsultasi via WhatsApp
+        </a>
+      </section>
+
+      <!-- Section 5: Portofolio -->
+      <section class="service-section" id="sec-portfolio">
+        <div class="section-badge">📁 CASE STUDIES</div>
+        <h2 class="section-title">5. Portofolio Success Stories</h2>
+        <p class="section-desc">
+          Koleksi karya dan proyek sukses yang telah dipercayai oleh klien dari berbagai industri mulai dari UMKM hingga perusahaan skala besar.
+        </p>
+
+        <div class="cards-grid">
+          <div class="card-item">
+            <div class="portfolio-tags">
+              <span class="port-tag">WEB APP</span>
+              <span class="port-tag">SAAS</span>
+            </div>
+            <h3 class="card-title">Fintech SaaS Payment Gateway</h3>
+            <p class="card-text">Platform pemrosesan pembayaran otomatis dengan dashboard analitik dan keamanan enkripsi bank.</p>
+          </div>
+
+          <div class="card-item">
+            <div class="portfolio-tags">
+              <span class="port-tag">ERP SYSTEM</span>
+              <span class="port-tag">RETAIL</span>
+            </div>
+            <h3 class="card-title">Multi-Outlet Retail POS & ERP</h3>
+            <p class="card-text">Sistem Kasir terintegrasi gudang untuk 25+ cabang jaringan retail nasional.</p>
+          </div>
+
+          <div class="card-item">
+            <div class="portfolio-tags">
+              <span class="port-tag">E-COMMERCE</span>
+              <span class="port-tag">GROWTH</span>
+            </div>
+            <h3 class="card-title">Global Storefront & Ads Campaign</h3>
+            <p class="card-text">Toko online internasional dengan performa tinggi & strategi pertumbuhan iklan hingga 5x ROAS.</p>
+          </div>
+
+          <div class="card-item">
+            <div class="portfolio-tags">
+              <span class="port-tag">ACADEMY</span>
+              <span class="port-tag">EDTECH</span>
+            </div>
+            <h3 class="card-title">Interactive Learning Portal</h3>
+            <p class="card-text">Platform pembelajaran interaktif berbasis web dengan video streaming & kuis otomatis.</p>
+          </div>
+        </div>
+
+        <a href="https://wa.me/6285777203153?text=Halo%20Cepotech,%20saya%20ingin%20melihat%20katalog%20Portofolio%20terbaru" target="_blank" class="section-cta">
+          <span>💬</span> Minta Katalog Portofolio Lengkap via WhatsApp
+        </a>
+      </section>
+    </main>
+
+    <!-- Site Footer -->
+    <footer class="site-footer">
+      <p>© 2026 🎭 CEPOTECH SOFTWARE HOUSE. All Rights Reserved.</p>
+      <p style="font-size: 14px; margin-top: 8px; color: #666;">Crafted with Excellence for High Impact Digital Transformation.</p>
+    </footer>
+
+    <script>
+      // ==================== SOUND & MUSIC REMOVED ====================
+      function playFootstep() {}
+      function playDing() {}
+      function playBuzz() {}
+      function playMeow() {}
+      function playVictory() {}
+      function playPurr() {}
+      function playAmbient() {}
+      function startAmbientSounds() {}
+
+      // ==================== GAME CONFIG ====================
+      const CONFIG = {
+        SECRET_CODE: "MEOW23",
+        GAME_WIDTH: 800,
+        GAME_HEIGHT: 400,
+        GROUND_Y: 320,
+        PLAYER_SPEED: 3,
+      };
+
+      // ==================== TIME OF DAY SYSTEM ====================
+      const TIME_OF_DAY = {
+        MORNING: {
+          name: "PAGI",
+          icon: "☀️",
+          skyGradient: ["#9EC8E8", "#B8E0F6", "#E3F4FF", "#FFF8E7"],
+          cloudOpacity: 0.9,
+          lampBrightness: 0,
+          windowLights: false,
+          stars: false,
+          ambientSound: true,
+        },
+        NOON: {
+          name: "SIANG",
+          icon: "🌤️",
+          skyGradient: ["#4A90E2", "#6BB3F1", "#87CEEB", "#B8E2F7"],
+          cloudOpacity: 0.95,
+          lampBrightness: 0,
+          windowLights: false,
+          stars: false,
+          ambientSound: true,
+        },
+        EVENING: {
+          name: "SORE",
+          icon: "🌅",
+          skyGradient: ["#7B2869", "#E85D75", "#FFAB73", "#FFD6A5"],
+          cloudOpacity: 0.7,
+          lampBrightness: 0.5,
+          windowLights: true,
+          stars: false,
+          ambientSound: false,
+        },
+        NIGHT: {
+          name: "MALAM",
+          icon: "🌙",
+          skyGradient: ["#0A0E27", "#1A1F3A", "#2B3A5C", "#3D506E"],
+          cloudOpacity: 0.3,
+          lampBrightness: 1,
+          windowLights: true,
+          stars: true,
+          ambientSound: false,
+        },
+      };
+
+      const timeOrder = ["MORNING", "NOON", "EVENING", "NIGHT"];
+      let currentTimeIndex = 0;
+      let currentTime = TIME_OF_DAY[timeOrder[currentTimeIndex]];
+
+      // Star positions for night sky
+      const stars = [];
+      for (let i = 0; i < 50; i++) {
+        stars.push({
+          x: Math.random() * CONFIG.GAME_WIDTH,
+          y: Math.random() * (CONFIG.GROUND_Y - 100),
+          size: Math.random() * 2 + 1,
+          brightness: Math.random(),
+          twinkleSpeed: Math.random() * 0.02 + 0.01,
+        });
+      }
+
+      // ==================== PARTICLE SYSTEMS ====================
+      // Sakura petals (morning/noon)
+      const sakuraPetals = [];
+      for (let i = 0; i < 25; i++) {
+        sakuraPetals.push({
+          x: Math.random() * CONFIG.GAME_WIDTH,
+          y: Math.random() * CONFIG.GAME_HEIGHT,
+          size: Math.random() * 4 + 2,
+          speedX: Math.random() * 0.5 - 0.25,
+          speedY: Math.random() * 0.8 + 0.3,
+          rotation: Math.random() * Math.PI * 2,
+          rotSpeed: (Math.random() - 0.5) * 0.05,
+          sway: Math.random() * Math.PI * 2,
+          swaySpeed: Math.random() * 0.02 + 0.01,
+          opacity: Math.random() * 0.5 + 0.3,
+        });
+      }
+
+      // Fireflies (night)
+      const fireflies = [];
+      for (let i = 0; i < 15; i++) {
+        fireflies.push({
+          x: Math.random() * CONFIG.GAME_WIDTH,
+          y: 100 + Math.random() * (CONFIG.GROUND_Y - 150),
+          baseX: 0, baseY: 0,
+          angle: Math.random() * Math.PI * 2,
+          speed: Math.random() * 0.01 + 0.005,
+          radius: Math.random() * 30 + 15,
+          brightness: Math.random(),
+          pulseSpeed: Math.random() * 0.05 + 0.02,
+          size: Math.random() * 2 + 1.5,
+        });
+      }
+      fireflies.forEach(f => { f.baseX = f.x; f.baseY = f.y; });
+
+      // Shooting stars
+      const shootingStars = [];
+
+      // Heart particles
+      const heartParticles = [];
+
+      // Confetti
+      const confetti = [];
+      let confettiActive = false;
+
+      // Time toggle button
+      const timeToggle = document.getElementById("timeToggle");
+      const timeIcon = document.getElementById("timeIcon");
+      const timeLabel = document.getElementById("timeLabel");
+
+      function changeTimeOfDay() {
+        currentTimeIndex = (currentTimeIndex + 1) % timeOrder.length;
+        currentTime = TIME_OF_DAY[timeOrder[currentTimeIndex]];
+        timeIcon.textContent = currentTime.icon;
+        timeLabel.textContent = currentTime.name;
+
+        // Update ambient sounds
+        if (currentTime.ambientSound && !ambientInterval) {
+          startAmbientSounds();
+        } else if (!currentTime.ambientSound && ambientInterval) {
+          clearInterval(ambientInterval);
+          ambientInterval = null;
+        }
+      }
+
+      timeToggle.addEventListener("click", changeTimeOfDay);
+
+      // ==================== ANIMATION STATE ====================
+      const anim = {
+        time: 0,
+        clouds: [
+          { x: 100, speed: 0.3 },
+          { x: 350, speed: 0.2 },
+          { x: 600, speed: 0.35 },
+          { x: 750, speed: 0.25 },
+        ],
+        catTail: 0,
+        treeSway: 0,
+        lampFlicker: 1,
+        grassWave: 0,
+      };
+
+      // ==================== GAME STATE ====================
+      const state = {
+        introPassed: true,
+        treeInteracted: false,
+        ladderTried: false,
+        stoneTried: false,
+        foodTried: false,
+        bookRead: false,
+        phoneUnlocked: false,
+        codeEntered: false,
+        gameComplete: false,
+        currentDialog: null,
+        cutscene: {
+          active: false,
+          phase: 0, // 0: zoom to cat, 1: pickup, 2: thank you, 3: walk home, 4: photo
+          timer: 0,
+          zoomLevel: 1,
+          targetZoom: 1,
+          cameraX: 0,
+          cameraY: 0,
+        },
+      };
+
+      // ==================== CANVAS SETUP ====================
+      const canvas = document.getElementById("gameCanvas");
+      const ctx = canvas.getContext("2d");
+
+      // roundRect polyfill for older browsers
+      if (!ctx.roundRect) {
+        CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
+          if (typeof r === 'number') r = [r, r, r, r];
+          const [tl, tr, br, bl] = r;
+          this.moveTo(x + tl, y);
+          this.lineTo(x + w - tr, y);
+          this.quadraticCurveTo(x + w, y, x + w, y + tr);
+          this.lineTo(x + w, y + h - br);
+          this.quadraticCurveTo(x + w, y + h, x + w - br, y + h);
+          this.lineTo(x + bl, y + h);
+          this.quadraticCurveTo(x, y + h, x, y + h - bl);
+          this.lineTo(x, y + tl);
+          this.quadraticCurveTo(x, y, x + tl, y);
+          this.closePath();
+          return this;
+        };
+      }
+
+      // ==================== HiDPI / RETINA SCALING ====================
+      let canvasDPR = 1;
+
+      function setupHiDPI() {
+        const dpr = window.devicePixelRatio || 1;
+        canvasDPR = dpr;
+
+        // Set the actual pixel dimensions (high-res)
+        canvas.width = CONFIG.GAME_WIDTH * dpr;
+        canvas.height = CONFIG.GAME_HEIGHT * dpr;
+
+        // Set canvas style to fill container responsively
+        canvas.style.width = '100%';
+        canvas.style.height = 'auto';
+
+        // Disable image smoothing for crisp pixel art
+        ctx.imageSmoothingEnabled = false;
+        ctx.webkitImageSmoothingEnabled = false;
+        ctx.mozImageSmoothingEnabled = false;
+        ctx.msImageSmoothingEnabled = false;
+      }
+
+      setupHiDPI();
+      window.addEventListener('resize', () => {
+        setupHiDPI();
+      });
+
+      // ==================== MOBILE CAMERA ====================
+      const mobileCamera = {
+        enabled: false,
+        translateX: 0,
+        targetTranslateX: 0,
+        smoothSpeed: 0.12,
+        initialized: false,
+      };
+
+      function detectMobile() {
+        return window.innerWidth <= 800;
+      }
+
+      function updateMobileCamera() {
+        mobileCamera.enabled = detectMobile();
+        if (!mobileCamera.enabled) {
+          mobileCamera.translateX = 0;
+          mobileCamera.initialized = false;
+          return;
+        }
+
+        const screenW = window.innerWidth;
+        const screenH = window.innerHeight;
+
+        const coverScale = Math.max(screenW / CONFIG.GAME_WIDTH, screenH / CONFIG.GAME_HEIGHT);
+        const visibleGameWidth = screenW / coverScale;
+        const halfVisible = visibleGameWidth / 2;
+
+        const focusX = player.x + player.width / 2;
+        const clampedX = Math.max(halfVisible, Math.min(CONFIG.GAME_WIDTH - halfVisible, focusX));
+
+        mobileCamera.targetTranslateX = CONFIG.GAME_WIDTH / 2 - clampedX;
+
+        if (!mobileCamera.initialized) {
+          mobileCamera.translateX = mobileCamera.targetTranslateX;
+          mobileCamera.initialized = true;
+        } else {
+          mobileCamera.translateX += (mobileCamera.targetTranslateX - mobileCamera.translateX) * mobileCamera.smoothSpeed;
+        }
+      }
+
+      // ==================== PLAYER ====================
+      const player = {
+        x: 400,
+        y: CONFIG.GROUND_Y,
+        width: 32,
+        height: 60,
+        speed: CONFIG.PLAYER_SPEED,
+        direction: 1,
+        frame: 0,
+        carryingCat: false,
+        frameTimer: 0,
+        isWalking: false,
+        // Jump
+        velocityY: 0,
+        isJumping: false,
+        jumpPower: -8,
+        gravity: 0.45,
+        groundY: CONFIG.GROUND_Y,
+        // Attack
+        isAttacking: false,
+        attackTimer: 0,
+        attackCooldown: 0,
+      };
+
+      // ==================== ARROWS ====================
+      const arrows = [];
+      const ARROW_SPEED = 7;
+      const ARROW_LIFETIME = 90; // frames
+
+      // ==================== OBJECTS ====================
+      const objects = {
+        tree: {
+          x: 60,
+          y: CONFIG.GROUND_Y - 120,
+          width: 100,
+          height: 120,
+          interactRange: 60,
+        },
+        cat: {
+          x: 85,
+          y: CONFIG.GROUND_Y - 155,
+          width: 30,
+          height: 25,
+          rescued: false,
+          state: "stuck", // stuck, descending, walkingToPlayer, rubbing, following, idle
+          targetX: 0,
+          frame: 0,
+          frameTimer: 0,
+          direction: 1,
+          rubbingTimer: 0,
+          carried: false,
+        },
+        ladder: {
+          x: 180,
+          y: CONFIG.GROUND_Y - 50,
+          width: 30,
+          height: 50,
+          tried: false,
+          interactRange: 40,
+        },
+        stone: {
+          x: 280,
+          y: CONFIG.GROUND_Y - 20,
+          width: 25,
+          height: 20,
+          tried: false,
+          interactRange: 35,
+        },
+        food: {
+          x: 370,
+          y: CONFIG.GROUND_Y - 15,
+          width: 20,
+          height: 15,
+          tried: false,
+          interactRange: 35,
+        },
+        bench: { x: 470, y: CONFIG.GROUND_Y - 35, width: 60, height: 35 },
+        book: {
+          x: 485,
+          y: CONFIG.GROUND_Y - 50,
+          width: 20,
+          height: 15,
+          interactRange: 45,
+        },
+        lampPost: { x: 560, y: CONFIG.GROUND_Y - 100, width: 20, height: 100 },
+        phone: {
+          x: 680,
+          y: CONFIG.GROUND_Y - 70,
+          width: 35,
+          height: 70,
+          interactRange: 45,
+        },
+      };
+
+      // ==================== BACKGROUND NPCs ====================
+      const bgNPCs = [];
+      const NPC_TYPES = [
+        { type: 'walker', width: 16, height: 34, speed: [0.4, 0.8] },
+        { type: 'umbrella', width: 18, height: 38, speed: [0.3, 0.6] },
+        { type: 'dogwalker', width: 28, height: 34, speed: [0.5, 0.7] },
+        { type: 'couple', width: 28, height: 34, speed: [0.3, 0.5] },
+        { type: 'jogger', width: 16, height: 32, speed: [0.9, 1.4] },
+        { type: 'bagperson', width: 18, height: 36, speed: [0.35, 0.65] },
+      ];
+
+      function spawnNPC() {
+        const template = NPC_TYPES[Math.floor(Math.random() * NPC_TYPES.length)];
+        const dir = Math.random() > 0.5 ? 1 : -1;
+        const speed = template.speed[0] + Math.random() * (template.speed[1] - template.speed[0]);
+        // Depth layer: 0 = far back (smaller), 1 = mid, 2 = near-back
+        const layer = Math.floor(Math.random() * 3);
+        const scale = 1.1 + layer * 0.15;
+        const alpha = 0.7 + layer * 0.1;
+        // Y on the sidewalk: feet sit on GROUND_Y line, farther layers slightly higher
+        const yBase = CONFIG.GROUND_Y;
+
+        // On mobile, spawn NPCs just outside the visible viewport edges
+        let spawnX;
+        if (mobileCamera.enabled) {
+          const camOff = -mobileCamera.translateX; // left edge of visible area in game coords
+          const screenW = window.innerWidth;
+          const screenH = window.innerHeight;
+          const coverScale = Math.max(screenW / CONFIG.GAME_WIDTH, screenH / CONFIG.GAME_HEIGHT);
+          const visW = screenW / coverScale;
+          const visLeft = camOff + (CONFIG.GAME_WIDTH - visW) / 2;
+          spawnX = dir === 1 ? visLeft - 40 : visLeft + visW + 40;
+        } else {
+          spawnX = dir === 1 ? -40 : CONFIG.GAME_WIDTH + 40;
+        }
+
+        return {
+          type: template.type,
+          x: spawnX,
+          y: yBase,
+          width: template.width * scale,
+          height: template.height * scale,
+          speed: speed * scale,
+          direction: dir,
+          frame: 0,
+          frameTimer: 0,
+          alpha: alpha,
+          scale: scale,
+          layer: layer,
+          color: ['#2C2C3A', '#3A3344', '#2E3440', '#393145', '#342E3B', '#3D3548'][Math.floor(Math.random() * 6)],
+          hatColor: ['#4A4458', '#554E60', '#3E3850', '#5C5470'][Math.floor(Math.random() * 4)],
+          accColor: ['#6B5B7B', '#7B6B5B', '#5B6B7B', '#8B7B6B'][Math.floor(Math.random() * 4)],
+        };
+      }
+
+      // Initialize a few NPCs already on screen
+      for (let i = 0; i < 4; i++) {
+        const npc = spawnNPC();
+        npc.x = 80 + Math.random() * (CONFIG.GAME_WIDTH - 160);
+        bgNPCs.push(npc);
+      }
+
+      function updateBgNPCs() {
+        // Spawn new NPCs occasionally (higher rate on mobile for narrower viewport)
+        const spawnRate = mobileCamera.enabled ? 0.012 : 0.004;
+        const maxNPCs = mobileCamera.enabled ? 8 : 6;
+        if (bgNPCs.length < maxNPCs && Math.random() < spawnRate) {
+          bgNPCs.push(spawnNPC());
+        }
+
+        for (let i = bgNPCs.length - 1; i >= 0; i--) {
+          const npc = bgNPCs[i];
+          npc.x += npc.speed * npc.direction;
+          npc.frameTimer++;
+          if (npc.frameTimer > 12) {
+            npc.frame = (npc.frame + 1) % 4;
+            npc.frameTimer = 0;
+          }
+          // Remove if off screen (use wider bounds to account for camera movement)
+          if ((npc.direction === 1 && npc.x > CONFIG.GAME_WIDTH + 100) ||
+              (npc.direction === -1 && npc.x < -100)) {
+            bgNPCs.splice(i, 1);
+          }
+        }
+      }
+
+      // ==================== BUILDINGS ====================
+      const buildings = [
+        {
+          x: 0,
+          width: 150,
+          height: 180,
+          color: "#8B4513",
+          roofColor: "#4a3728",
+          title: "Website & Web Apps",
+          windows: [
+            [20, 60],
+            [80, 60],
+            [20, 120],
+          ],
+        },
+        {
+          x: 200,
+          width: 120,
+          height: 150,
+          color: "#CD5C5C",
+          roofColor: "#8B3A3A",
+          title: "Business Systems",
+          windows: [
+            [30, 50],
+            [70, 50],
+          ],
+        },
+        {
+          x: 350,
+          width: 180,
+          height: 200,
+          color: "#A0522D",
+          roofColor: "#6B3E26",
+          title: "Digital Growth",
+          windows: [
+            [30, 60],
+            [90, 60],
+            [150, 60],
+            [60, 130],
+          ],
+        },
+        {
+          x: 580,
+          width: 100,
+          height: 140,
+          color: "#BC8F8F",
+          roofColor: "#8B6969",
+          title: "Academy",
+          windows: [
+            [25, 50],
+            [65, 50],
+          ],
+        },
+        {
+          x: 700,
+          width: 120,
+          height: 170,
+          color: "#8B7355",
+          roofColor: "#5D4E3A",
+          title: "Portofolio",
+          windows: [
+            [30, 60],
+            [80, 60],
+          ],
+        },
+      ];
+
+      // ==================== INPUT ====================
+      const keys = { left: false, right: false, interact: false, jump: false, attack: false };
+
+      document.addEventListener("keydown", (e) => {
+        if (state.currentDialog || state.gameComplete) return;
+        if (e.key === "ArrowLeft" || e.key === "a") keys.left = true;
+        if (e.key === "ArrowRight" || e.key === "d") keys.right = true;
+        if (e.key === "ArrowUp" || e.key === "e" || e.key === "E") {
+          if (!keys.interact) {
+            keys.interact = true;
+            handleInteraction();
+          }
+        }
+        if (e.key === " " || e.key === "w" || e.key === "W") {
+          e.preventDefault();
+          if (!keys.jump) {
+            keys.jump = true;
+            playerJump();
+          }
+        }
+        if (e.key === "f" || e.key === "F") {
+          if (!keys.attack) {
+            keys.attack = true;
+            playerShootArrow();
+          }
+        }
+      });
+
+      document.addEventListener("keyup", (e) => {
+        if (e.key === "ArrowLeft" || e.key === "a") keys.left = false;
+        if (e.key === "ArrowRight" || e.key === "d") keys.right = false;
+        if (e.key === "ArrowUp" || e.key === "e" || e.key === "E")
+          keys.interact = false;
+        if (e.key === " " || e.key === "w" || e.key === "W") keys.jump = false;
+        if (e.key === "f" || e.key === "F") keys.attack = false;
+      });
+
+      function playerJump() {
+        if (!player.isJumping && !state.cutscene.active && state.introPassed) {
+          player.isJumping = true;
+          player.velocityY = player.jumpPower;
+          playFootstep(); // jump sound
+        }
+      }
+
+      function playerShootArrow() {
+        if (player.attackCooldown > 0 || player.carryingCat || state.cutscene.active || !state.introPassed) return;
+        player.isAttacking = true;
+        player.attackTimer = 12;
+        player.attackCooldown = 20;
+
+        // Create arrow (y uses player.y which already accounts for jump height)
+        arrows.push({
+          x: player.x + player.width / 2 + (player.direction * 14),
+          y: player.y + 6,
+          direction: player.direction,
+          life: ARROW_LIFETIME,
+          speed: ARROW_SPEED,
+        });
+
+        // Arrow whoosh sound
+        try {
+          const actx = new (window.AudioContext || window.webkitAudioContext)();
+          const osc = actx.createOscillator();
+          const gain = actx.createGain();
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(800, actx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(200, actx.currentTime + 0.15);
+          gain.gain.setValueAtTime(0.08, actx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, actx.currentTime + 0.15);
+          osc.connect(gain).connect(actx.destination);
+          osc.start();
+          osc.stop(actx.currentTime + 0.15);
+        } catch(e) {}
+      }
+
+      // Mobile controls
+      const btnLeft = document.getElementById("btnLeft");
+      const btnRight = document.getElementById("btnRight");
+      const btnAction = document.getElementById("btnAction");
+
+      if (btnLeft) {
+        btnLeft.addEventListener("touchstart", (e) => {
+          e.preventDefault();
+          keys.left = true;
+        });
+        btnLeft.addEventListener("touchend", () => (keys.left = false));
+      }
+      if (btnRight) {
+        btnRight.addEventListener("touchstart", (e) => {
+          e.preventDefault();
+          keys.right = true;
+        });
+        btnRight.addEventListener("touchend", () => (keys.right = false));
+      }
+      if (btnAction) {
+        btnAction.addEventListener("touchstart", (e) => {
+          e.preventDefault();
+          handleInteraction();
+        });
+      }
+
+      // Jump button
+      const btnJump = document.getElementById("btnJump");
+      if (btnJump) {
+        btnJump.addEventListener("touchstart", (e) => {
+          e.preventDefault();
+          playerJump();
+        });
+      }
+
+      // ==================== MOUSE CURSOR FOLLOWING ====================
+      const mouseControl = {
+        active: false,
+        targetX: 400,
+      };
+
+      window.addEventListener("mousemove", (e) => {
+        const rect = canvas.getBoundingClientRect();
+        if (
+          e.clientX >= rect.left &&
+          e.clientX <= rect.right &&
+          e.clientY >= rect.top &&
+          e.clientY <= rect.bottom
+        ) {
+          const scaleX = CONFIG.GAME_WIDTH / rect.width;
+          let canvasX = (e.clientX - rect.left) * scaleX;
+          if (mobileCamera.enabled) {
+            canvasX -= mobileCamera.translateX;
+          }
+          mouseControl.targetX = canvasX - player.width / 2;
+          mouseControl.active = true;
+        }
+      });
+
+      // Allow clicking or tapping on the floating prompt to trigger interaction
+      const interactPromptEl = document.getElementById("interactPrompt");
+      if (interactPromptEl) {
+        interactPromptEl.style.pointerEvents = "auto";
+        interactPromptEl.style.cursor = "pointer";
+        interactPromptEl.addEventListener("click", (e) => {
+          e.stopPropagation();
+          handleInteraction();
+        });
+        interactPromptEl.addEventListener("touchend", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          handleInteraction();
+        });
+      }
+
+      // Allow clicking/tapping directly on canvas when near a building
+      canvas.addEventListener("click", () => {
+        handleInteraction();
+      });
+
+      // ==================== INTERACTION SYSTEM (5 BUILDINGS) ====================
+      function getNearbyObject() {
+        const playerCenter = player.x + player.width / 2;
+
+        for (let i = 0; i < buildings.length; i++) {
+          const b = buildings[i];
+          const bLeft = b.x;
+          const bRight = b.x + b.width;
+          if (playerCenter >= bLeft - 10 && playerCenter <= bRight + 10) {
+            return { type: "building", index: i, building: b };
+          }
+        }
+        return null;
+      }
+
+      function scrollToSection(id) {
+        const target = document.getElementById(id);
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+
+      function handleInteraction() {
+        if (state.currentDialog || state.gameComplete) return;
+        const nearby = getNearbyObject();
+        if (!nearby) return;
+
+        const sectionMap = ["sec-web", "sec-systems", "sec-growth", "sec-academy", "sec-portfolio"];
+        const targetId = sectionMap[nearby.index];
+
+        // Smoothly scroll to section directly on click/interaction
+        scrollToSection(targetId);
+
+        const idx = nearby.index;
+        switch (idx) {
+          case 0:
+            showDialog(
+              "b0",
+              "🌐",
+              "Website & Web Apps",
+              "🚀 Layanan Utama Cepotech!\n\nPengembangan Website Modern, Landing Page High-Converting, dan Web Application skala besar yang cepat, responsif, & berestetika tinggi.",
+              "Ke Detail Section 👇",
+              "Konsultasi WA 🌐",
+              () => {
+                scrollToSection("sec-web");
+                closeDialog();
+              },
+              () => {
+                window.open("https://wa.me/6285777203153?text=Halo%20Cepotech,%20saya%20tertarik%20dengan%20layanan%20Website%20%26%20Web%20Apps", "_blank");
+                closeDialog();
+              }
+            );
+            break;
+          case 1:
+            showDialog(
+              "b1",
+              "⚙️",
+              "Business Systems",
+              "💼 Sistem Manajemen Bisnis Terintegrasi!\n\nPengembangan aplikasi khusus ERP, Kasir/POS, CRM Pelanggan, dan Inventory Management yang disesuaikan dengan alur bisnis Anda.",
+              "Ke Detail Section 👇",
+              "Konsultasi WA ⚙️",
+              () => {
+                scrollToSection("sec-systems");
+                closeDialog();
+              },
+              () => {
+                window.open("https://wa.me/6285777203153?text=Halo%20Cepotech,%20saya%20butuh%20sistem%20bisnis%20(ERP/POS/CRM/Inventory)", "_blank");
+                closeDialog();
+              }
+            );
+            break;
+          case 2:
+            showDialog(
+              "b2",
+              "📈",
+              "Digital Growth",
+              "📊 Akselerasi Pertumbuhan Bisnis Digital!\n\nStrategi Google Ads, Meta Ads, Optimasi SEO Organic, dan Web Analytics untuk meningkatkan jangkauan & penjualan secara terukur.",
+              "Ke Detail Section 👇",
+              "Konsultasi WA 📈",
+              () => {
+                scrollToSection("sec-growth");
+                closeDialog();
+              },
+              () => {
+                window.open("https://wa.me/6285777203153?text=Halo%20Cepotech,%20saya%20ingin%20konsultasi%20Digital%20Growth", "_blank");
+                closeDialog();
+              }
+            );
+            break;
+          case 3:
+            showDialog(
+              "b3",
+              "🎓",
+              "Academy",
+              "🎓 Masterclass & Konsultasi IT Enterprise!\n\nProgram bimbingan intensif 1-on-1, Masterclass Software Engineering, dan konsultasi arsitektur sistem teknologi modern.",
+              "Ke Detail Section 👇",
+              "Info Academy 🎓",
+              () => {
+                scrollToSection("sec-academy");
+                closeDialog();
+              },
+              () => {
+                window.open("https://wa.me/6285777203153?text=Halo%20Cepotech,%20saya%20tertarik%20dengan%20Academy%20%26%20Consulting", "_blank");
+                closeDialog();
+              }
+            );
+            break;
+          case 4:
+            showDialog(
+              "b4",
+              "📁",
+              "PORTOFOLIO",
+              "🌟 Rekam Jejak & Karya Cepotech Software House!\n\nLihat koleksi proyek sukses yang telah kami selesaikan dari berbagai industri skala UMKM hingga Enterprise.",
+              "Ke Detail Section 👇",
+              "Lihat Portofolio 🚀",
+              () => {
+                scrollToSection("sec-portfolio");
+                closeDialog();
+              },
+              () => {
+                window.open("https://wa.me/6285777203153?text=Halo%20Cepotech,%20saya%20ingin%20melihat%20katalog%20Portofolio%20terbaru", "_blank");
+                closeDialog();
+              }
+            );
+            break;
+        }
+      }
+
+
+
+      function triggerEnding() {
+        state.gameComplete = true;
+        objects.cat.rescued = true;
+        objects.cat.state = "descending";
+        playVictory();
+        confettiActive = true;
+        setTimeout(() => { confettiActive = false; }, 8000);
+
+        const rescueInterval = setInterval(() => {
+          objects.cat.y += 2;
+          if (objects.cat.y >= CONFIG.GROUND_Y - 30) {
+            clearInterval(rescueInterval);
+            objects.cat.y = CONFIG.GROUND_Y - 30;
+            objects.cat.state = "walkingToPlayer";
+            objects.cat.targetX = player.x;
+            playMeow();
+            setTimeout(() => playPurr(), 500);
+          }
+        }, 30);
+      }
+
+      // ==================== DIALOG SYSTEM ====================
+      function showDialog(
+        type,
+        icon,
+        title,
+        content,
+        primaryBtn = null,
+        secondaryBtn = "Tutup",
+        primaryAction = null,
+        secondaryAction = null
+      ) {
+        state.currentDialog = type;
+
+        document.getElementById("dialogIcon").textContent = icon;
+        document.getElementById("dialogTitle").textContent = title;
+        document.getElementById("dialogContent").innerHTML = content;
+
+        const btnPrimary = document.getElementById("btnPrimary");
+        const btnSecondary = document.getElementById("btnSecondary");
+
+        if (primaryBtn) {
+          btnPrimary.style.display = "block";
+          btnPrimary.textContent = primaryBtn;
+          btnPrimary.onclick = () => {
+            if (primaryAction) primaryAction();
+            else closeDialog();
+          };
+        } else {
+          btnPrimary.style.display = "none";
+        }
+
+        btnSecondary.textContent = secondaryBtn;
+        btnSecondary.onclick = () => {
+          if (secondaryAction) secondaryAction();
+          else closeDialog();
+        };
+
+        document.getElementById("dialogOverlay").classList.add("active");
+      }
+
+
+      function closeDialog() {
+        document.getElementById("dialogOverlay").classList.remove("active");
+        state.currentDialog = null;
+      }
+
+      // ESC key closes dialog
+      document.addEventListener("keydown", function(e) {
+        if (state.currentDialog && (e.key === "Escape" || e.key === "Esc")) {
+          closeDialog();
+        }
+      });
+
+
+
+      // ==================== ANIMATIONS ====================
+      function updateAnimations() {
+        anim.time++;
+
+        // Cloud drift - slower at evening/night
+        const cloudSpeedMultiplier = currentTime.ambientSound ? 1 : 0.5;
+        anim.clouds.forEach((cloud) => {
+          cloud.x += cloud.speed * cloudSpeedMultiplier;
+          if (cloud.x > CONFIG.GAME_WIDTH + 80) cloud.x = -80;
+        });
+
+        // Cat tail wag
+        anim.catTail = Math.sin(anim.time * 0.1) * 0.3;
+
+        // Tree sway
+        anim.treeSway = Math.sin(anim.time * 0.03) * 3;
+
+        // Lamp flicker - more active at night
+        if (currentTime.lampBrightness > 0.5) {
+          anim.lampFlicker = 0.85 + Math.random() * 0.15;
+        } else {
+          anim.lampFlicker = 0.9 + Math.random() * 0.1;
+        }
+
+        // Grass wave
+        anim.grassWave = Math.sin(anim.time * 0.05);
+
+        // Update particle systems
+        updateParticles();
+
+        // Update background NPCs
+        updateBgNPCs();
+      }
+
+      // ==================== UPDATE ====================
+      let lastFootstepFrame = 0;
+
+      function update() {
+        // Don't update game until intro is passed
+        if (!state.introPassed) {
+          player.isWalking = false;
+          return;
+        }
+
+        if (state.currentDialog) {
+          player.isWalking = false;
+          return;
+        }
+
+        // Player movement (Keyboard or Mouse Cursor Following)
+        player.isWalking = false;
+        if (keys.left) {
+          player.x -= player.speed;
+          player.direction = -1;
+          player.isWalking = true;
+          mouseControl.active = false;
+        } else if (keys.right) {
+          player.x += player.speed;
+          player.direction = 1;
+          player.isWalking = true;
+          mouseControl.active = false;
+        } else if (mouseControl.active) {
+          const dx = mouseControl.targetX - player.x;
+          if (Math.abs(dx) > 5) {
+            player.direction = dx > 0 ? 1 : -1;
+            player.x += player.direction * Math.min(player.speed, Math.abs(dx));
+            player.isWalking = true;
+          }
+        }
+
+        player.x = Math.max(
+          10,
+          Math.min(CONFIG.GAME_WIDTH - player.width - 10, player.x),
+        );
+
+        // ---- JUMP PHYSICS ----
+        if (player.isJumping) {
+          player.velocityY += player.gravity;
+          player.y += player.velocityY;
+          if (player.y >= player.groundY) {
+            player.y = player.groundY;
+            player.velocityY = 0;
+            player.isJumping = false;
+          }
+        }
+
+        // ---- ATTACK COOLDOWN ----
+        if (player.attackCooldown > 0) player.attackCooldown--;
+        if (player.attackTimer > 0) {
+          player.attackTimer--;
+          if (player.attackTimer === 0) player.isAttacking = false;
+        }
+
+        // ---- UPDATE ARROWS ----
+        for (let i = arrows.length - 1; i >= 0; i--) {
+          const a = arrows[i];
+          a.x += a.direction * a.speed;
+          a.life--;
+          if (a.life <= 0 || a.x < -20 || a.x > CONFIG.GAME_WIDTH + 20) {
+            arrows.splice(i, 1);
+          }
+        }
+
+        if (player.isWalking) {
+          player.frameTimer++;
+          if (player.frameTimer > 8) {
+            player.frame = (player.frame + 1) % 4;
+            player.frameTimer = 0;
+            // Play footstep sound on frame change
+            if (
+              player.frame !== lastFootstepFrame &&
+              (player.frame === 0 || player.frame === 2)
+            ) {
+              playFootstep();
+              lastFootstepFrame = player.frame;
+            }
+          }
+        } else {
+          player.frame = 0;
+        }
+
+        updateInteractPrompt();
+      }
+
+      function updateCatBehavior() {
+        const cat = objects.cat;
+
+        if (cat.state === "walkingToPlayer") {
+          const distanceToPlayer = player.x - cat.x;
+
+          if (Math.abs(distanceToPlayer) > 35) {
+            // Calculate midpoint
+            const midpoint = (cat.x + player.x) / 2;
+
+            // Cat walks towards midpoint
+            cat.direction = distanceToPlayer > 0 ? 1 : -1;
+            cat.x += cat.direction * 1.5;
+
+            // Player also walks towards midpoint
+            const distanceToMidpoint = midpoint - player.x;
+            if (Math.abs(distanceToMidpoint) > 5) {
+              player.direction = distanceToMidpoint > 0 ? 1 : -1;
+              player.x += player.direction * 1.2;
+              player.isWalking = true;
+
+              // Player walking animation
+              player.frameTimer++;
+              if (player.frameTimer > 8) {
+                player.frame = (player.frame + 1) % 4;
+                player.frameTimer = 0;
+              }
+            }
+
+            // Cat walking animation
+            cat.frameTimer++;
+            if (cat.frameTimer > 6) {
+              cat.frame = (cat.frame + 1) % 4;
+              cat.frameTimer = 0;
+            }
+          } else {
+            // Reached each other, start rubbing
+            cat.state = "rubbing";
+            cat.frame = 0;
+            cat.rubbingTimer = 0;
+            player.isWalking = false;
+            player.frame = 0;
+            playPurr();
+          }
+        } else if (cat.state === "rubbing") {
+          cat.rubbingTimer++;
+
+          // Rubbing animation (moving around player's feet)
+          const rubAngle = (cat.rubbingTimer * 0.1) % (Math.PI * 2);
+          cat.x = player.x + Math.cos(rubAngle) * 20;
+          cat.direction = Math.cos(rubAngle) > 0 ? 1 : -1;
+
+          // After rubbing for a while, trigger cutscene
+          if (cat.rubbingTimer > 120) {
+            cat.state = "idle";
+            cat.x = player.x;
+            // Start cutscene
+            state.cutscene.active = true;
+            state.cutscene.phase = 0;
+            state.cutscene.timer = 0;
+          }
+        } else if (cat.state === "following") {
+          // Follow player at a distance
+          const distanceToPlayer = player.x - cat.x;
+          const followDistance = 40;
+
+          if (Math.abs(distanceToPlayer) > followDistance + 10) {
+            cat.direction = distanceToPlayer > 0 ? 1 : -1;
+            cat.x += cat.direction * 2;
+
+            cat.frameTimer++;
+            if (cat.frameTimer > 6) {
+              cat.frame = (cat.frame + 1) % 4;
+              cat.frameTimer = 0;
+            }
+          } else {
+            cat.frame = 0;
+          }
+        }
+      }
+
+      function updateCutscene() {
+        if (!state.cutscene.active) return;
+
+        const cs = state.cutscene;
+        cs.timer++;
+
+        // Smooth zoom interpolation
+        cs.zoomLevel += (cs.targetZoom - cs.zoomLevel) * 0.05;
+
+        // Phase 0: Zoom into happy cat (close-up)
+        if (cs.phase === 0) {
+          cs.targetZoom = 2.5;
+          cs.cameraX = objects.cat.x;
+          cs.cameraY = objects.cat.y - 20;
+
+          if (cs.timer > 90) {
+            cs.phase = 1;
+            cs.timer = 0;
+            cs.targetZoom = 1.5;
+          }
+        }
+        // Phase 1: Player picks up cat
+        else if (cs.phase === 1) {
+          cs.targetZoom = 1.5;
+          cs.cameraX = player.x;
+          cs.cameraY = player.y - 20;
+
+          if (cs.timer === 1) {
+            playMeow();
+          }
+          if (cs.timer > 30 && cs.timer < 60) {
+            // Animate cat moving to player's arms
+            objects.cat.y = player.y - 20 - ((cs.timer - 30) / 30) * 20;
+          }
+          if (cs.timer === 60) {
+            player.carryingCat = true;
+            objects.cat.carried = true;
+          }
+
+          if (cs.timer > 90) {
+            cs.phase = 2;
+            cs.timer = 0;
+          }
+        }
+        // Phase 2: "Thank you!" dialog from cat
+        else if (cs.phase === 2) {
+          if (cs.timer === 1) {
+            playPurr();
+            showDialog(
+              "cat",
+              "🐱",
+              "Kucing",
+              '"Terima kasih sudah menolongku!\n\nAku hampir tidak percaya\nada yang peduli..."\n\n💛',
+              null,
+              "Sama-sama! 😊",
+              null,
+            );
+          }
+
+          // Wait for dialog to close
+          if (!state.currentDialog && cs.timer > 10) {
+            cs.phase = 3;
+            cs.timer = 0;
+            cs.targetZoom = 1;
+          }
+        }
+        // Phase 3: Walk home together
+        else if (cs.phase === 3) {
+          cs.targetZoom = 1;
+          cs.cameraX = CONFIG.GAME_WIDTH / 2;
+          cs.cameraY = CONFIG.GAME_HEIGHT / 2;
+
+          // Auto-walk player to right
+          if (cs.timer < 120) {
+            player.x += 2;
+            player.direction = 1;
+            player.isWalking = true;
+
+            if (cs.timer % 15 === 0) {
+              playFootstep();
+            }
+          }
+
+          if (cs.timer > 150) {
+            cs.phase = 4;
+            cs.timer = 0;
+          }
+        }
+        // Phase 4: Show photo ending
+        else if (cs.phase === 4) {
+          if (cs.timer === 1) {
+            playVictory();
+            const ending = document.getElementById("endingOverlay");
+            ending.classList.add("active");
+            setTimeout(() => ending.classList.add("visible"), 100);
+          }
+        }
+      }
+
+      function updateInteractPrompt() {
+        const nearby = getNearbyObject();
+        const prompt = document.getElementById("interactPrompt");
+
+        if (nearby && !state.currentDialog) {
+          const b = nearby.building;
+          const baseY = CONFIG.GROUND_Y - b.height + 50;
+
+          const promptText = prompt.querySelector(".prompt-text");
+          if (promptText) {
+            promptText.textContent = "CLICK";
+          }
+
+          // Game-world position centered right above the rooftop sign board
+          let gameX = b.x + b.width / 2;
+          let gameY = baseY - 48;
+
+          // Account for mobile camera horizontal pan
+          if (mobileCamera.enabled) {
+            gameX += mobileCamera.translateX;
+          }
+
+          const canvasRect = canvas.getBoundingClientRect();
+          const scaleX = canvasRect.width / CONFIG.GAME_WIDTH;
+          const scaleY = canvasRect.height / CONFIG.GAME_HEIGHT;
+          const coverScale = Math.max(scaleX, scaleY);
+
+          const offsetX = (canvasRect.width - CONFIG.GAME_WIDTH * coverScale) / 2;
+          const offsetY = (canvasRect.height - CONFIG.GAME_HEIGHT * coverScale) / 2;
+
+          const scaledX = gameX * coverScale + offsetX;
+          const scaledY = gameY * coverScale + offsetY;
+
+          prompt.style.left = scaledX - 45 + "px";
+          prompt.style.top = scaledY - 45 + "px";
+          prompt.classList.add("visible");
+        } else {
+          prompt.classList.remove("visible");
+        }
+      }
+
+      // ==================== RENDER ====================
+      function render() {
+        // Clear the full hi-res canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Apply DPR scaling so all draw calls use game-logical coordinates
+        ctx.save();
+        ctx.scale(canvasDPR, canvasDPR);
+
+        // Draw sky first without camera transformation (fills entire canvas)
+        drawSky();
+        if (currentTime.stars) drawStars();
+        drawShootingStars();
+
+        // Apply camera transformation
+        ctx.save();
+
+        if (state.cutscene.active) {
+          // Cutscene camera (zoom + pan)
+          const zoom = state.cutscene.zoomLevel;
+          const centerX = CONFIG.GAME_WIDTH / 2;
+          const centerY = CONFIG.GAME_HEIGHT / 2;
+          ctx.translate(centerX, centerY);
+          ctx.scale(zoom, zoom);
+          ctx.translate(-state.cutscene.cameraX, -state.cutscene.cameraY);
+        } else if (mobileCamera.enabled) {
+          // Mobile camera: horizontal pan only (CSS cover handles portrait zoom)
+          ctx.translate(mobileCamera.translateX, 0);
+        }
+
+        drawClouds();
+        drawBuildings();
+        drawSakuraPetals();
+        drawStreet();
+        drawBgNPCs();
+        drawObjects();
+        drawPlayer();
+        drawFireflies();
+        drawHeartParticles();
+
+        ctx.restore(); // camera transform
+        drawConfetti();
+        ctx.restore(); // DPR scale
+      }
+
+      function drawSky() {
+        const gradient = ctx.createLinearGradient(0, 0, 0, CONFIG.GAME_HEIGHT);
+        const colors = currentTime.skyGradient;
+
+        // Distribute color stops evenly
+        colors.forEach((color, index) => {
+          const position = index / (colors.length - 1);
+          gradient.addColorStop(position, color);
+        });
+
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, CONFIG.GAME_WIDTH, CONFIG.GAME_HEIGHT);
+        // Ambient light overlay based on time of day
+        ctx.save();
+        let ambient;
+        if (currentTime.name === 'MORNING') {
+          ambient = 'rgba(255,220,180,0.08)';
+        } else if (currentTime.name === 'NOON') {
+          ambient = 'rgba(255,255,255,0.04)';
+        } else if (currentTime.name === 'EVENING') {
+          ambient = 'rgba(180,200,255,0.10)';
+        } else if (currentTime.name === 'NIGHT') {
+          ambient = 'rgba(80,120,255,0.13)';
+        } else {
+          ambient = 'rgba(255,255,255,0.04)';
+        }
+        ctx.fillStyle = ambient;
+        ctx.fillRect(0, 0, CONFIG.GAME_WIDTH, CONFIG.GAME_HEIGHT);
+        ctx.restore();
+      }
+
+      function drawStars() {
+        stars.forEach((star) => {
+          const twinkle = Math.sin(anim.time * star.twinkleSpeed) * 0.5 + 0.5;
+          ctx.fillStyle = `rgba(255, 255, 255, ${star.brightness * twinkle})`;
+          ctx.beginPath();
+          ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+          ctx.fill();
+        });
+      }
+
+      function drawClouds() {
+        // Morning clouds get soft golden tint
+        if (timeOrder[currentTimeIndex] === "MORNING") {
+          ctx.fillStyle = `rgba(255, 250, 240, ${currentTime.cloudOpacity})`;
+        }
+        // Evening clouds get warm pink/orange tint
+        else if (timeOrder[currentTimeIndex] === "EVENING") {
+          ctx.fillStyle = `rgba(255, 182, 193, ${currentTime.cloudOpacity})`;
+        } else {
+          ctx.fillStyle = `rgba(255, 255, 255, ${currentTime.cloudOpacity})`;
+        }
+
+        const cloudY = [50, 30, 60, 40];
+        const cloudScale = [1, 0.8, 1.2, 0.7];
+        anim.clouds.forEach((cloud, i) => {
+          drawCloud(cloud.x, cloudY[i], cloudScale[i]);
+        });
+      }
+
+      function drawCloud(x, y, scale) {
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.scale(scale, scale);
+        ctx.beginPath();
+        ctx.arc(0, 0, 20, 0, Math.PI * 2);
+        ctx.arc(25, -5, 25, 0, Math.PI * 2);
+        ctx.arc(50, 0, 20, 0, Math.PI * 2);
+        ctx.arc(15, 10, 15, 0, Math.PI * 2);
+        ctx.arc(35, 10, 18, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+
+      function drawBuildings() {
+        buildings.forEach((b, i) => {
+          const baseY = CONFIG.GROUND_Y - b.height + 50;
+
+          // Draw building body
+          ctx.fillStyle = b.color;
+          ctx.fillRect(b.x, baseY, b.width, b.height);
+
+          // Draw roof
+          ctx.fillStyle = b.roofColor;
+          ctx.fillRect(b.x - 5, baseY - 15, b.width + 10, 20);
+
+          // ROOFTOP SIGN BOARD (Clean Building Title)
+          ctx.save();
+          const centerX = b.x + b.width / 2;
+          const signY = baseY - 32;
+
+          // Set 7.5px font so long titles like "Academy & Consulting" never overflow or crop
+          ctx.font = "bold 7.5px 'Press Start 2P', monospace, sans-serif";
+          const textMetrics = ctx.measureText(b.title);
+          const paddingX = 10;
+          const signW = textMetrics.width + paddingX * 2;
+          const signH = 18;
+          let signX = centerX - signW / 2;
+
+          // Prevent edge cropping at screen boundaries
+          signX = Math.max(5, Math.min(CONFIG.GAME_WIDTH - signW - 5, signX));
+          const textX = signX + signW / 2;
+
+          // Signboard Support Poles
+          ctx.fillStyle = "#4a3728";
+          ctx.fillRect(textX - 16, baseY - 15, 3, 5);
+          ctx.fillRect(textX + 13, baseY - 15, 3, 5);
+
+          // Sign background with gold accent border
+          ctx.fillStyle = "rgba(15, 16, 35, 0.95)";
+          ctx.strokeStyle = "#FFD700";
+          ctx.lineWidth = 1.5;
+          if (ctx.roundRect) {
+            ctx.beginPath();
+            ctx.roundRect(signX, signY, signW, signH, 4);
+            ctx.fill();
+            ctx.stroke();
+          } else {
+            ctx.fillRect(signX, signY, signW, signH);
+            ctx.strokeRect(signX, signY, signW, signH);
+          }
+
+          // Building Title Text
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillStyle = "#FFD700";
+          ctx.fillText(b.title, textX, signY + signH / 2);
+          ctx.restore();
+
+          // Draw brick texture - with proper clipping
+          ctx.save();
+          ctx.beginPath();
+          ctx.rect(b.x, baseY, b.width, b.height);
+          ctx.clip();
+
+          ctx.strokeStyle = "rgba(0,0,0,0.1)";
+          ctx.lineWidth = 1;
+
+          const brickHeight = 12;
+          const brickWidth = 25;
+
+          for (let row = 0; row < Math.ceil(b.height / brickHeight); row++) {
+            const offset = row % 2 === 0 ? 0 : -12;
+            for (
+              let col = 0;
+              col < Math.ceil((b.width + 12) / brickWidth);
+              col++
+            ) {
+              const bx = b.x + col * brickWidth + offset;
+              const by = baseY + row * brickHeight;
+
+              // Only draw if within building bounds
+              if (bx >= b.x && bx < b.x + b.width && by < baseY + b.height) {
+                ctx.strokeRect(bx, by, brickWidth, brickHeight);
+              }
+            }
+          }
+
+          ctx.restore();
+
+          b.windows.forEach(([wx, wy]) => {
+            // Window lights based on time of day
+            if (currentTime.windowLights) {
+              ctx.fillStyle = "#FFE5B4";
+            } else {
+              ctx.fillStyle = "#5a8fba";
+            }
+            ctx.fillRect(b.x + wx, baseY + wy, 25, 30);
+            ctx.strokeStyle = "#3d5a73";
+            ctx.lineWidth = 2;
+            ctx.strokeRect(b.x + wx, baseY + wy, 25, 30);
+            ctx.beginPath();
+            ctx.moveTo(b.x + wx + 12, baseY + wy);
+            ctx.lineTo(b.x + wx + 12, baseY + wy + 30);
+            ctx.moveTo(b.x + wx, baseY + wy + 15);
+            ctx.lineTo(b.x + wx + 25, baseY + wy + 15);
+            ctx.stroke();
+          });
+
+          if (i === 0 || i === 2) {
+            ctx.fillStyle = "#4a3020";
+            ctx.fillRect(
+              b.x + b.width / 2 - 15,
+              CONFIG.GROUND_Y - 45 + 50,
+              30,
+              45,
+            );
+            // Door light only at evening/night
+            if (currentTime.windowLights) {
+              ctx.fillStyle = "#FFD700";
+              ctx.beginPath();
+              ctx.arc(
+                b.x + b.width / 2 + 8,
+                CONFIG.GROUND_Y - 20 + 50,
+                3,
+                0,
+                Math.PI * 2,
+              );
+              ctx.fill();
+            }
+          }
+        });
+      }
+
+      function drawTree() {}
+      function drawCat() {}
+
+      function drawStreet() {
+        ctx.fillStyle = "#9E9E9E";
+        ctx.fillRect(0, CONFIG.GROUND_Y, CONFIG.GAME_WIDTH, 30);
+        // Soft shadow gradient under buildings and NPCs
+        const shadowGrad = ctx.createLinearGradient(0, CONFIG.GROUND_Y, 0, CONFIG.GROUND_Y + 30);
+        shadowGrad.addColorStop(0, 'rgba(60,60,80,0.18)');
+        shadowGrad.addColorStop(0.7, 'rgba(60,60,80,0.05)');
+        shadowGrad.addColorStop(1, 'rgba(60,60,80,0)');
+        ctx.fillStyle = shadowGrad;
+        ctx.fillRect(0, CONFIG.GROUND_Y, CONFIG.GAME_WIDTH, 30);
+
+        drawGrass();
+
+        ctx.fillStyle = "#757575";
+        ctx.fillRect(0, CONFIG.GROUND_Y + 25, CONFIG.GAME_WIDTH, 5);
+
+        ctx.fillStyle = "#424242";
+        ctx.fillRect(0, CONFIG.GROUND_Y + 30, CONFIG.GAME_WIDTH, 50);
+
+        ctx.fillStyle = "#FFF";
+        for (let i = 0; i < 10; i++) {
+          ctx.fillRect(50 + i * 85, CONFIG.GROUND_Y + 52, 40, 6);
+        }
+
+        ctx.fillStyle = "#616161";
+        ctx.fillRect(0, CONFIG.GROUND_Y + 28, CONFIG.GAME_WIDTH, 4);
+
+        ctx.fillStyle = "#FFF";
+        for (let i = 0; i < 6; i++) {
+          ctx.fillRect(620 + i * 25, CONFIG.GROUND_Y + 30, 15, 50);
+        }
+      }
+
+      function drawGrass() {
+        const grassPositions = [160, 240, 330, 420, 550, 650];
+        grassPositions.forEach((gx, i) => {
+          const wave = Math.sin(anim.time * 0.08 + i) * 2;
+          ctx.fillStyle = "#4CAF50";
+
+          for (let j = 0; j < 3; j++) {
+            ctx.save();
+            ctx.translate(gx + j * 6, CONFIG.GROUND_Y);
+            ctx.rotate((wave + j * 0.5) * 0.05);
+            ctx.fillRect(-1, -12, 2, 12);
+            ctx.restore();
+          }
+
+          if (i % 2 === 0) {
+            ctx.fillStyle = i % 4 === 0 ? "#FF5722" : "#E91E63";
+            ctx.beginPath();
+            ctx.arc(
+              gx + 8 + wave * 0.5,
+              CONFIG.GROUND_Y - 14,
+              3,
+              0,
+              Math.PI * 2,
+            );
+            ctx.fill();
+            ctx.fillStyle = "#FFEB3B";
+            ctx.beginPath();
+            ctx.arc(
+              gx + 8 + wave * 0.5,
+              CONFIG.GROUND_Y - 14,
+              1.5,
+              0,
+              Math.PI * 2,
+            );
+            ctx.fill();
+          }
+        });
+      }
+
+      function drawObjects() {
+        drawBench(objects.bench.x, objects.bench.y);
+        drawBook(objects.book.x, objects.book.y);
+        drawLampPost(objects.lampPost.x, objects.lampPost.y);
+        drawPhoneBooth(objects.phone.x, objects.phone.y);
+      }
+
+      function drawLadder(x, y) {
+        ctx.fillStyle = "#8D6E63";
+        ctx.fillRect(x, y, 5, 50);
+        ctx.fillRect(x + 22, y, 5, 50);
+        for (let i = 0; i < 5; i++) {
+          ctx.fillRect(x + 3, y + 5 + i * 10, 21, 3);
+        }
+      }
+
+      function drawStone(x, y) {
+        ctx.fillStyle = "#757575";
+        ctx.beginPath();
+        ctx.ellipse(x + 12, y + 10, 15, 10, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "#9E9E9E";
+        ctx.beginPath();
+        ctx.ellipse(x + 8, y + 6, 5, 3, -0.3, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      function drawFood(x, y) {
+        ctx.fillStyle = "#64B5F6";
+        ctx.beginPath();
+        ctx.ellipse(x + 10, y + 8, 12, 7, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(x + 20, y + 8);
+        ctx.lineTo(x + 28, y + 2);
+        ctx.lineTo(x + 28, y + 14);
+        ctx.closePath();
+        ctx.fill();
+        ctx.fillStyle = "#333";
+        ctx.beginPath();
+        ctx.arc(x + 5, y + 6, 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      function drawBench(x, y) {
+        ctx.fillStyle = "#8D6E63";
+        ctx.fillRect(x, y + 15, 60, 8);
+        ctx.fillRect(x + 5, y, 50, 5);
+        ctx.fillRect(x + 5, y + 7, 50, 5);
+        ctx.fillStyle = "#5D4037";
+        ctx.fillRect(x + 5, y + 20, 6, 18);
+        ctx.fillRect(x + 49, y + 20, 6, 18);
+        ctx.fillRect(x + 5, y, 4, 20);
+        ctx.fillRect(x + 51, y, 4, 20);
+      }
+
+      function drawBook(x, y) {
+        ctx.fillStyle = "#C62828";
+        ctx.fillRect(x, y, 20, 15);
+        ctx.fillStyle = "#FFF8E1";
+        ctx.fillRect(x + 2, y + 2, 16, 11);
+        ctx.fillStyle = "#8E0000";
+        ctx.fillRect(x, y, 3, 15);
+      }
+
+      function drawLampPost(x, y) {
+        ctx.fillStyle = "#37474F";
+        ctx.fillRect(x + 8, y + 20, 6, 80);
+        ctx.fillRect(x + 2, y + 95, 18, 8);
+
+        ctx.fillStyle = "#455A64";
+        ctx.fillRect(x - 5, y, 32, 25);
+
+        const flicker = anim.lampFlicker * currentTime.lampBrightness;
+        ctx.fillStyle = `rgba(255, 249, 196, ${flicker})`;
+        ctx.fillRect(x, y + 20, 22, 5);
+
+        if (currentTime.lampBrightness > 0) {
+          ctx.fillStyle = `rgba(255, 249, 196, ${0.3 * flicker})`;
+          ctx.beginPath();
+          ctx.moveTo(x, y + 25);
+          ctx.lineTo(x - 15, y + 80);
+          ctx.lineTo(x + 37, y + 80);
+          ctx.lineTo(x + 22, y + 25);
+          ctx.fill();
+        }
+      }
+
+      function drawPhoneBooth(x, y) {
+        ctx.fillStyle = "#C62828";
+        ctx.fillRect(x, y, 35, 70);
+        ctx.fillStyle = "#FFEBEE";
+        ctx.fillRect(x + 4, y + 4, 27, 50);
+        ctx.fillStyle = "#81D4FA";
+        ctx.fillRect(x + 6, y + 6, 23, 30);
+        ctx.fillStyle = "#333";
+        ctx.fillRect(x + 12, y + 40, 12, 8);
+        ctx.fillStyle = "#B71C1C";
+        ctx.fillRect(x - 2, y - 5, 39, 8);
+        ctx.fillStyle = "#FFF";
+        ctx.font = "8px Arial";
+        ctx.fillText("TEL", x + 10, y + 62);
+      }
+
+      function drawPlayer() {
+        ctx.save();
+        // Translate to player position and apply enlarged 1.45x scale
+        ctx.translate(player.x + player.width / 2, player.y);
+        ctx.scale(player.direction * 1.45, 1.45);
+        ctx.translate(-player.width / 2, 0);
+
+        const bobOffset = player.isWalking
+          ? Math.sin((player.frame * Math.PI) / 2) * 2
+          : 0;
+
+        // Shadow under feet
+        ctx.fillStyle = "rgba(0, 0, 0, 0.25)";
+        ctx.beginPath();
+        ctx.ellipse(16, 50, 16, 5, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 1. WALKING CANE / STAFF (Held in hand)
+        ctx.save();
+        ctx.strokeStyle = "#3E2723";
+        ctx.lineWidth = 2.5;
+        const caneX = player.direction > 0 ? 30 : 2;
+        ctx.beginPath();
+        ctx.moveTo(caneX, 10 - bobOffset);
+        ctx.lineTo(caneX, 52 - bobOffset);
+        ctx.stroke();
+        // Cane Top Knob
+        ctx.fillStyle = "#4A3525";
+        ctx.beginPath();
+        ctx.arc(caneX, 9 - bobOffset, 3.5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+
+        // 2. FEET & DARK SANDALS (Y: 46 to 52)
+        ctx.fillStyle = "#C62828"; // Red Feet
+        if (player.isWalking) {
+          const legOffset = Math.sin((player.frame * Math.PI) / 2) * 4;
+          ctx.fillRect(7 + legOffset, 46 - bobOffset, 6, 5);
+          ctx.fillRect(17 - legOffset, 46 - bobOffset, 6, 5);
+          // Dark Sandals
+          ctx.fillStyle = "#111111";
+          ctx.fillRect(6 + legOffset, 49 - bobOffset, 8, 2.5);
+          ctx.fillRect(16 - legOffset, 49 - bobOffset, 8, 2.5);
+        } else {
+          ctx.fillRect(7, 46, 6, 5);
+          ctx.fillRect(18, 46, 6, 5);
+          ctx.fillStyle = "#111111";
+          ctx.fillRect(6, 49, 8, 2.5);
+          ctx.fillRect(17, 49, 8, 2.5);
+        }
+
+        // 3. LONG TAPERED PLAID SARONG (Y: 30 to 49)
+        const sarungY = 30 - bobOffset;
+        const sarungH = 19;
+        ctx.fillStyle = "#244D47"; // Dark Forest Teal
+        ctx.beginPath();
+        // Tapered A-line skirt shape
+        ctx.moveTo(7, sarungY);
+        ctx.lineTo(25, sarungY);
+        ctx.lineTo(27, sarungY + sarungH);
+        ctx.lineTo(5, sarungY + sarungH);
+        ctx.closePath();
+        ctx.fill();
+
+        // Plaid Grid Pattern Lines (Subtle Muted Teal & Beige Checkers)
+        ctx.strokeStyle = "rgba(104, 159, 152, 0.7)";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        // Horizontal Grid
+        ctx.moveTo(6, sarungY + 5);
+        ctx.lineTo(26, sarungY + 5);
+        ctx.moveTo(5.5, sarungY + 11);
+        ctx.lineTo(26.5, sarungY + 11);
+        ctx.moveTo(5, sarungY + 16);
+        ctx.lineTo(27, sarungY + 16);
+        // Vertical Grid
+        ctx.moveTo(11, sarungY);
+        ctx.lineTo(10, sarungY + sarungH);
+        ctx.moveTo(16, sarungY);
+        ctx.lineTo(16, sarungY + sarungH);
+        ctx.moveTo(21, sarungY);
+        ctx.lineTo(22, sarungY + sarungH);
+        ctx.stroke();
+
+        // Sarong Bottom Hem Trim
+        ctx.fillStyle = "#1A3632";
+        ctx.fillRect(5, sarungY + sarungH - 2, 22, 2);
+
+        // 4. BAJU BESKAP HITAM (Black Traditional Sundanese Jacket, Y: 15 to 31)
+        ctx.fillStyle = "#1F1F1F";
+        ctx.fillRect(6, 15 - bobOffset, 20, 16);
+
+        // Piping / Edge Trim (Brown Gold Border)
+        ctx.strokeStyle = "#C5A059";
+        ctx.lineWidth = 1;
+        ctx.strokeRect(6, 15 - bobOffset, 20, 16);
+
+        // Diagonal Gold Sash (Selempang Batik Emas)
+        ctx.fillStyle = "#C5A059";
+        ctx.beginPath();
+        ctx.moveTo(7, 16 - bobOffset);
+        ctx.lineTo(11, 16 - bobOffset);
+        ctx.lineTo(24, 30 - bobOffset);
+        ctx.lineTo(20, 30 - bobOffset);
+        ctx.closePath();
+        ctx.fill();
+        // Sash Batik Pattern Dots
+        ctx.fillStyle = "#8C6A27";
+        ctx.fillRect(10, 19 - bobOffset, 2, 2);
+        ctx.fillRect(14, 23 - bobOffset, 2, 2);
+        ctx.fillRect(18, 27 - bobOffset, 2, 2);
+
+        // Gold Buttons & Front Center Seam
+        ctx.fillStyle = "#D4AF37";
+        ctx.fillRect(15.5, 15 - bobOffset, 1, 16);
+        ctx.fillStyle = "#FFD700";
+        ctx.beginPath();
+        ctx.arc(16, 19 - bobOffset, 1, 0, Math.PI * 2);
+        ctx.arc(16, 23 - bobOffset, 1, 0, Math.PI * 2);
+        ctx.arc(16, 27 - bobOffset, 1, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Keris Tucked in Sash
+        ctx.fillStyle = "#8D6E63";
+        ctx.fillRect(19, 18 - bobOffset, 3, 6);
+        ctx.fillStyle = "#D4AF37";
+        ctx.beginPath();
+        ctx.arc(20.5, 17 - bobOffset, 2, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 5. ARMS & RED HANDS (Y: 17 to 28)
+        ctx.fillStyle = "#1F1F1F"; // Black Sleeves
+        if (player.isWalking) {
+          const armOffset = Math.sin((player.frame * Math.PI) / 2) * 3;
+          // Left Arm & Red Hand
+          ctx.fillRect(2, 17 - bobOffset + armOffset, 4.5, 8);
+          ctx.fillStyle = "#C62828"; // Red hand
+          ctx.fillRect(2, 25 - bobOffset + armOffset, 4.5, 4);
+
+          // Right Arm & Red Hand
+          ctx.fillStyle = "#1F1F1F";
+          ctx.fillRect(25.5, 17 - bobOffset - armOffset, 4.5, 8);
+          ctx.fillStyle = "#C62828";
+          ctx.fillRect(25.5, 25 - bobOffset - armOffset, 4.5, 4);
+        } else {
+          // Left Arm & Red Hand
+          ctx.fillRect(2, 17, 4.5, 8);
+          ctx.fillStyle = "#C62828";
+          ctx.fillRect(2, 25, 4.5, 4);
+
+          // Right Arm & Red Hand
+          ctx.fillStyle = "#1F1F1F";
+          ctx.fillRect(25.5, 17, 4.5, 8);
+          ctx.fillStyle = "#C62828";
+          ctx.fillRect(25.5, 25, 4.5, 4);
+        }
+        // Sleeve Cuff Gold Piping
+        ctx.fillStyle = "#C5A059";
+        ctx.fillRect(2, 24 - bobOffset, 4.5, 1);
+        ctx.fillRect(25.5, 24 - bobOffset, 4.5, 1);
+
+        // 6. SOLID RED HEAD & FACE (Y: 2 to 17)
+        const headY = 9 - bobOffset;
+        ctx.fillStyle = "#C62828"; // Deep Rich Cepot Red
+        ctx.beginPath();
+        ctx.arc(16, headY, 10.5, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Red Ears
+        ctx.beginPath();
+        ctx.arc(4.5, headY + 1, 3, 0, Math.PI * 2);
+        ctx.arc(27.5, headY + 1, 3, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 7. IKET SUNDA (GOLDEN-BROWN BATIK CLOTH WRAPPED TIGHTLY ON TOP OF FOREHEAD)
+        ctx.fillStyle = "#C5A059"; // Golden Brown Batik
+        ctx.beginPath();
+        ctx.arc(16, headY - 3, 11, Math.PI + 0.2, -0.2);
+        ctx.fill();
+        ctx.fillRect(5, headY - 10, 22, 5);
+
+        // Batik Weave Lines on Iket
+        ctx.fillStyle = "#8C6A27";
+        ctx.fillRect(5, headY - 7, 22, 1);
+        ctx.fillStyle = "#1F1F1F";
+        ctx.fillRect(8, headY - 9, 2, 2);
+        ctx.fillRect(13, headY - 9, 2, 2);
+        ctx.fillRect(18, headY - 9, 2, 2);
+        ctx.fillRect(22, headY - 9, 2, 2);
+
+        // Tied Iket Cloth Knot (Back of Head)
+        ctx.fillStyle = "#C5A059";
+        ctx.beginPath();
+        ctx.moveTo(27, headY - 9);
+        ctx.lineTo(34, headY - 13);
+        ctx.lineTo(32, headY - 5);
+        ctx.closePath();
+        ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(27, headY - 7);
+        ctx.lineTo(34, headY - 1);
+        ctx.lineTo(30, headY + 1);
+        ctx.closePath();
+        ctx.fill();
+
+        // 8. FAITHFUL CEPOT FACIAL FEATURES (CLEAR UNCOVERED EYES, NOSE & GRINNING MOUTH)
+        // Expressive Dark Eyebrows
+        ctx.strokeStyle = "#111111";
+        ctx.lineWidth = 1.8;
+        ctx.beginPath();
+        ctx.arc(11, headY - 3, 3, Math.PI + 0.3, -0.3);
+        ctx.arc(21, headY - 3, 3, Math.PI + 0.3, -0.3);
+        ctx.stroke();
+
+        // Clear Round Eyes (100% Uncovered below headband)
+        ctx.fillStyle = "#FFFFFF"; // Sclera
+        ctx.beginPath();
+        ctx.arc(11, headY + 0.5, 2.5, 0, Math.PI * 2);
+        ctx.arc(21, headY + 0.5, 2.5, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = "#111111"; // Pupil
+        ctx.beginPath();
+        ctx.arc(11, headY + 0.5, 1.3, 0, Math.PI * 2);
+        ctx.arc(21, headY + 0.5, 1.3, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = "#FFFFFF"; // Specular Shine
+        ctx.beginPath();
+        ctx.arc(11.5, headY - 0.2, 0.6, 0, Math.PI * 2);
+        ctx.arc(21.5, headY - 0.2, 0.6, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Red Bulbous Nose
+        ctx.fillStyle = "#9A0007";
+        ctx.beginPath();
+        ctx.arc(16, headY + 3.2, 3, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Wide Grinning Smile (White Teeth & Dark Outline)
+        ctx.fillStyle = "#FFFFFF";
+        ctx.beginPath();
+        ctx.arc(16, headY + 5.5, 5.5, 0.1, Math.PI - 0.1);
+        ctx.fill();
+        ctx.strokeStyle = "#111111";
+        ctx.lineWidth = 1.2;
+        ctx.stroke();
+
+        // Red Neck
+        ctx.fillStyle = "#C62828";
+        ctx.fillRect(13, headY + 8, 6, 3);
+
+        ctx.restore();
+      }
+
+      // ==================== DRAW ARROWS ====================
+      function drawArrows() {
+        for (const a of arrows) {
+          ctx.save();
+          ctx.translate(a.x, a.y);
+          if (a.direction < 0) ctx.scale(-1, 1);
+
+          // Arrow shaft
+          ctx.fillStyle = "#8D6E63";
+          ctx.fillRect(-12, -1, 24, 2);
+
+          // Arrowhead
+          ctx.fillStyle = "#B0BEC5";
+          ctx.beginPath();
+          ctx.moveTo(14, 0);
+          ctx.lineTo(10, -3);
+          ctx.lineTo(10, 3);
+          ctx.closePath();
+          ctx.fill();
+
+          // Arrow fletching (feathers)
+          ctx.fillStyle = "#F44336";
+          ctx.beginPath();
+          ctx.moveTo(-12, 0);
+          ctx.lineTo(-16, -4);
+          ctx.lineTo(-10, 0);
+          ctx.closePath();
+          ctx.fill();
+          ctx.fillStyle = "#FFD54F";
+          ctx.beginPath();
+          ctx.moveTo(-12, 0);
+          ctx.lineTo(-16, 4);
+          ctx.lineTo(-10, 0);
+          ctx.closePath();
+          ctx.fill();
+
+          // Trail glow (fading based on life)
+          const alpha = Math.min(a.life / ARROW_LIFETIME, 1) * 0.3;
+          ctx.fillStyle = `rgba(255, 193, 7, ${alpha})`;
+          ctx.beginPath();
+          ctx.ellipse(-14, 0, 6, 2, 0, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.restore();
+        }
+      }
+
+      // ==================== PARTICLE UPDATE ====================
+      function updateParticles() {
+        const isMorningOrNoon = timeOrder[currentTimeIndex] === 'MORNING' || timeOrder[currentTimeIndex] === 'NOON';
+
+        // Sakura petals
+        if (isMorningOrNoon) {
+          sakuraPetals.forEach(p => {
+            p.sway += p.swaySpeed;
+            p.x += p.speedX + Math.sin(p.sway) * 0.5;
+            p.y += p.speedY;
+            p.rotation += p.rotSpeed;
+            if (p.y > CONFIG.GAME_HEIGHT + 10) { p.y = -10; p.x = Math.random() * CONFIG.GAME_WIDTH; }
+            if (p.x > CONFIG.GAME_WIDTH + 10) p.x = -10;
+            if (p.x < -10) p.x = CONFIG.GAME_WIDTH + 10;
+          });
+        }
+
+        // Fireflies
+        if (timeOrder[currentTimeIndex] === 'NIGHT') {
+          fireflies.forEach(f => {
+            f.angle += f.speed;
+            f.x = f.baseX + Math.cos(f.angle) * f.radius;
+            f.y = f.baseY + Math.sin(f.angle * 0.7) * f.radius * 0.6;
+            f.brightness = Math.sin(anim.time * f.pulseSpeed) * 0.5 + 0.5;
+          });
+        }
+
+        // Shooting stars
+        if (timeOrder[currentTimeIndex] === 'NIGHT' && Math.random() < 0.003) {
+          shootingStars.push({
+            x: Math.random() * CONFIG.GAME_WIDTH * 0.7,
+            y: Math.random() * 80,
+            speedX: 4 + Math.random() * 3,
+            speedY: 2 + Math.random() * 1.5,
+            life: 40 + Math.random() * 20,
+            maxLife: 60,
+            trail: [],
+          });
+        }
+        for (let i = shootingStars.length - 1; i >= 0; i--) {
+          const s = shootingStars[i];
+          s.trail.push({ x: s.x, y: s.y });
+          if (s.trail.length > 12) s.trail.shift();
+          s.x += s.speedX;
+          s.y += s.speedY;
+          s.life--;
+          if (s.life <= 0) shootingStars.splice(i, 1);
+        }
+
+        // Heart particles
+        for (let i = heartParticles.length - 1; i >= 0; i--) {
+          const h = heartParticles[i];
+          h.y -= h.speedY;
+          h.x += Math.sin(h.sway) * 0.3;
+          h.sway += 0.05;
+          h.life--;
+          h.opacity = h.life / h.maxLife;
+          if (h.life <= 0) heartParticles.splice(i, 1);
+        }
+
+        // Spawn hearts near cat when happy
+        if (objects.cat.rescued && (objects.cat.state === 'rubbing' || objects.cat.state === 'following') && Math.random() < 0.08) {
+          heartParticles.push({
+            x: objects.cat.x + Math.random() * 20,
+            y: objects.cat.y - 5,
+            speedY: 0.5 + Math.random() * 0.5,
+            sway: Math.random() * Math.PI * 2,
+            life: 60, maxLife: 60, opacity: 1,
+            size: 6 + Math.random() * 6,
+            color: Math.random() > 0.5 ? '#FF69B4' : '#FF1493',
+          });
+        }
+
+        // Confetti
+        if (confettiActive) {
+          if (confetti.length < 150 && anim.time % 2 === 0) {
+            for (let c = 0; c < 3; c++) {
+              confetti.push({
+                x: Math.random() * CONFIG.GAME_WIDTH,
+                y: -10,
+                speedX: (Math.random() - 0.5) * 3,
+                speedY: Math.random() * 2 + 1,
+                rotation: Math.random() * Math.PI * 2,
+                rotSpeed: (Math.random() - 0.5) * 0.1,
+                size: Math.random() * 6 + 3,
+                color: ['#FF69B4','#FFD700','#87CEEB','#FF6347','#98FB98','#DDA0DD','#FFA500'][Math.floor(Math.random() * 7)],
+                life: 200,
+              });
+            }
+          }
+          for (let i = confetti.length - 1; i >= 0; i--) {
+            const c = confetti[i];
+            c.x += c.speedX + Math.sin(c.rotation) * 0.5;
+            c.y += c.speedY;
+            c.rotation += c.rotSpeed;
+            c.life--;
+            if (c.y > CONFIG.GAME_HEIGHT + 20 || c.life <= 0) confetti.splice(i, 1);
+          }
+        }
+      }
+
+      // ==================== PARTICLE DRAW ====================
+      function drawSakuraPetals() {
+        const isMorningOrNoon = timeOrder[currentTimeIndex] === 'MORNING' || timeOrder[currentTimeIndex] === 'NOON';
+        if (!isMorningOrNoon) return;
+        sakuraPetals.forEach(p => {
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rotation);
+          ctx.globalAlpha = p.opacity;
+          ctx.fillStyle = '#FFB7C5';
+          ctx.beginPath();
+          ctx.ellipse(0, 0, p.size, p.size * 0.6, 0, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = '#FFDDE1';
+          ctx.beginPath();
+          ctx.ellipse(0.5, 0, p.size * 0.6, p.size * 0.35, 0, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.globalAlpha = 1;
+          ctx.restore();
+        });
+      }
+
+      function drawFireflies() {
+        if (timeOrder[currentTimeIndex] !== 'NIGHT') return;
+        fireflies.forEach(f => {
+          const alpha = f.brightness * 0.8 + 0.2;
+          const gradient = ctx.createRadialGradient(f.x, f.y, 0, f.x, f.y, f.size * 6);
+          gradient.addColorStop(0, `rgba(255, 255, 150, ${alpha * 0.4})`);
+          gradient.addColorStop(0.5, `rgba(255, 255, 100, ${alpha * 0.15})`);
+          gradient.addColorStop(1, 'rgba(255, 255, 100, 0)');
+          ctx.fillStyle = gradient;
+          ctx.beginPath();
+          ctx.arc(f.x, f.y, f.size * 6, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = `rgba(255, 255, 200, ${alpha})`;
+          ctx.beginPath();
+          ctx.arc(f.x, f.y, f.size, 0, Math.PI * 2);
+          ctx.fill();
+        });
+      }
+
+      function drawShootingStars() {
+        if (timeOrder[currentTimeIndex] !== 'NIGHT') return;
+        shootingStars.forEach(s => {
+          const alpha = s.life / s.maxLife;
+          for (let i = 0; i < s.trail.length; i++) {
+            const t = s.trail[i];
+            const trailAlpha = (i / s.trail.length) * alpha * 0.5;
+            ctx.fillStyle = `rgba(255, 255, 255, ${trailAlpha})`;
+            ctx.beginPath();
+            ctx.arc(t.x, t.y, 1.5 * (i / s.trail.length), 0, Math.PI * 2);
+            ctx.fill();
+          }
+          ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, 2, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = `rgba(200, 220, 255, ${alpha * 0.3})`;
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, 5, 0, Math.PI * 2);
+          ctx.fill();
+        });
+      }
+
+      function drawHeartParticles() {
+        heartParticles.forEach(h => {
+          ctx.save();
+          ctx.globalAlpha = h.opacity;
+          ctx.fillStyle = h.color;
+          ctx.font = `${h.size}px Arial`;
+          ctx.fillText('\u2764', h.x, h.y);
+          ctx.globalAlpha = 1;
+          ctx.restore();
+        });
+      }
+
+      function drawConfetti() {
+        if (!confettiActive || confetti.length === 0) return;
+        confetti.forEach(c => {
+          ctx.save();
+          ctx.translate(c.x, c.y);
+          ctx.rotate(c.rotation);
+          ctx.fillStyle = c.color;
+          ctx.fillRect(-c.size / 2, -c.size / 4, c.size, c.size / 2);
+          ctx.restore();
+        });
+      }
+
+      // ==================== BACKGROUND NPCs DRAW ====================
+      function drawBgNPCs() {
+        // Sort by layer so farther NPCs draw first
+        const sorted = [...bgNPCs].sort((a, b) => a.layer - b.layer);
+
+        sorted.forEach(npc => {
+          ctx.save();
+          ctx.globalAlpha = npc.alpha;
+
+          // Anchor at feet position (npc.y = ground level)
+          const footX = npc.x;
+          const footY = npc.y;
+
+          // (NPC shadow removed as requested)
+
+          ctx.translate(footX + npc.width / 2, footY);
+          ctx.scale(npc.direction, 1);
+          ctx.translate(-npc.width / 2, 0);
+
+          const s = npc.scale;
+          const bob = Math.sin(npc.frame * Math.PI / 2) * 1 * s;
+          const legSwing = Math.sin(npc.frame * Math.PI / 2) * 3 * s;
+          const w = npc.width;
+
+          if (npc.type === 'walker') {
+            // Feet/shoes
+            ctx.fillStyle = npc.color;
+            ctx.fillRect(3 * s + legSwing, -3 * s, 4 * s, 3 * s);
+            ctx.fillRect(9 * s - legSwing, -3 * s, 4 * s, 3 * s);
+            // Legs
+            ctx.fillRect(4 * s + legSwing, -12 * s - bob, 3 * s, 10 * s);
+            ctx.fillRect(9 * s - legSwing, -12 * s - bob, 3 * s, 10 * s);
+            // Body
+            ctx.fillRect(2 * s, -24 * s - bob, 12 * s, 13 * s);
+            // Head (circle, no face)
+            ctx.fillStyle = npc.hatColor;
+            ctx.beginPath();
+            ctx.arc(8 * s, -28 * s - bob, 5 * s, 0, Math.PI * 2);
+            ctx.fill();
+            // Hat
+            ctx.fillStyle = npc.accColor;
+            ctx.fillRect(3 * s, -33 * s - bob, 10 * s, 3 * s);
+            ctx.fillRect(5 * s, -35 * s - bob, 6 * s, 3 * s);
+          }
+          else if (npc.type === 'umbrella') {
+            ctx.fillStyle = npc.color;
+            ctx.fillRect(5 * s + legSwing, -3 * s, 3 * s, 3 * s);
+            ctx.fillRect(10 * s - legSwing, -3 * s, 3 * s, 3 * s);
+            ctx.fillRect(5 * s + legSwing, -12 * s - bob, 3 * s, 10 * s);
+            ctx.fillRect(10 * s - legSwing, -12 * s - bob, 3 * s, 10 * s);
+            ctx.fillRect(3 * s, -24 * s - bob, 12 * s, 13 * s);
+            ctx.fillStyle = npc.hatColor;
+            ctx.beginPath();
+            ctx.arc(9 * s, -28 * s - bob, 4.5 * s, 0, Math.PI * 2);
+            ctx.fill();
+            // Umbrella pole
+            ctx.strokeStyle = npc.accColor;
+            ctx.lineWidth = 1.5 * s;
+            ctx.beginPath();
+            ctx.moveTo(14 * s, -18 * s - bob);
+            ctx.lineTo(14 * s, -38 * s - bob);
+            ctx.stroke();
+            // Umbrella canopy
+            ctx.fillStyle = npc.accColor;
+            ctx.beginPath();
+            ctx.arc(14 * s, -38 * s - bob, 9 * s, Math.PI, 0);
+            ctx.fill();
+          }
+          else if (npc.type === 'dogwalker') {
+            ctx.fillStyle = npc.color;
+            ctx.fillRect(4 * s + legSwing, -3 * s, 3 * s, 3 * s);
+            ctx.fillRect(9 * s - legSwing, -3 * s, 3 * s, 3 * s);
+            ctx.fillRect(4 * s + legSwing, -12 * s - bob, 3 * s, 10 * s);
+            ctx.fillRect(9 * s - legSwing, -12 * s - bob, 3 * s, 10 * s);
+            ctx.fillRect(2 * s, -24 * s - bob, 12 * s, 13 * s);
+            ctx.fillStyle = npc.hatColor;
+            ctx.beginPath();
+            ctx.arc(8 * s, -28 * s - bob, 4.5 * s, 0, Math.PI * 2);
+            ctx.fill();
+            // Leash
+            ctx.strokeStyle = npc.accColor;
+            ctx.lineWidth = 1 * s;
+            ctx.beginPath();
+            ctx.moveTo(13 * s, -16 * s - bob);
+            ctx.quadraticCurveTo(18 * s, -5 * s, 22 * s, -4 * s);
+            ctx.stroke();
+            // Dog body
+            ctx.fillStyle = npc.hatColor;
+            ctx.fillRect(20 * s, -6 * s, 8 * s, 4 * s);
+            ctx.beginPath();
+            ctx.arc(29 * s, -5 * s, 2.5 * s, 0, Math.PI * 2);
+            ctx.fill();
+            // Dog legs
+            const dLeg = Math.sin(npc.frame * Math.PI / 2) * 2 * s;
+            ctx.fillRect(21 * s + dLeg, -2 * s, 2 * s, 3 * s);
+            ctx.fillRect(26 * s - dLeg, -2 * s, 2 * s, 3 * s);
+            // Dog tail
+            ctx.strokeStyle = npc.hatColor;
+            ctx.lineWidth = 1.5 * s;
+            ctx.beginPath();
+            ctx.moveTo(20 * s, -6 * s);
+            ctx.lineTo(18 * s, -9 * s + Math.sin(anim.time * 0.2) * 2 * s);
+            ctx.stroke();
+          }
+          else if (npc.type === 'couple') {
+            for (let p = 0; p < 2; p++) {
+              const px = p * 10 * s;
+              const col = p === 0 ? npc.color : npc.hatColor;
+              ctx.fillStyle = col;
+              ctx.fillRect(px + 3 * s + legSwing, -3 * s, 3 * s, 3 * s);
+              ctx.fillRect(px + 7 * s - legSwing, -3 * s, 3 * s, 3 * s);
+              ctx.fillRect(px + 3 * s + legSwing, -11 * s - bob, 3 * s, 9 * s);
+              ctx.fillRect(px + 7 * s - legSwing, -11 * s - bob, 3 * s, 9 * s);
+              ctx.fillRect(px + 1 * s, -22 * s - bob, 10 * s, 12 * s);
+              ctx.beginPath();
+              ctx.arc(px + 6 * s, -25 * s - bob, 3.5 * s, 0, Math.PI * 2);
+              ctx.fill();
+            }
+            ctx.fillStyle = npc.accColor;
+            ctx.fillRect(9 * s, -14 * s - bob, 3 * s, 2 * s);
+          }
+          else if (npc.type === 'jogger') {
+            const jLeg = Math.sin(npc.frame * Math.PI / 2) * 5 * s;
+            ctx.fillStyle = npc.color;
+            ctx.fillRect(4 * s + jLeg, -3 * s, 3 * s, 3 * s);
+            ctx.fillRect(8 * s - jLeg, -3 * s, 3 * s, 3 * s);
+            ctx.fillRect(4 * s + jLeg, -12 * s - bob, 3 * s, 10 * s);
+            ctx.fillRect(8 * s - jLeg, -12 * s - bob, 3 * s, 10 * s);
+            ctx.fillRect(3 * s, -23 * s - bob, 10 * s, 12 * s);
+            ctx.fillStyle = npc.hatColor;
+            ctx.beginPath();
+            ctx.arc(8 * s, -27 * s - bob, 4 * s, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = npc.accColor;
+            ctx.fillRect(4 * s, -29 * s - bob, 8 * s, 2 * s);
+            const armSwing = Math.sin(npc.frame * Math.PI / 2) * 4 * s;
+            ctx.fillStyle = npc.color;
+            ctx.fillRect(1 * s, -20 * s - bob + armSwing, 3 * s, 7 * s);
+            ctx.fillRect(12 * s, -20 * s - bob - armSwing, 3 * s, 7 * s);
+          }
+          else if (npc.type === 'bagperson') {
+            ctx.fillStyle = npc.color;
+            ctx.fillRect(4 * s + legSwing, -3 * s, 3 * s, 3 * s);
+            ctx.fillRect(9 * s - legSwing, -3 * s, 3 * s, 3 * s);
+            ctx.fillRect(4 * s + legSwing, -12 * s - bob, 3 * s, 10 * s);
+            ctx.fillRect(9 * s - legSwing, -12 * s - bob, 3 * s, 10 * s);
+            ctx.fillRect(2 * s, -25 * s - bob, 12 * s, 14 * s);
+            ctx.fillStyle = npc.hatColor;
+            ctx.beginPath();
+            ctx.arc(8 * s, -29 * s - bob, 4.5 * s, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = npc.accColor;
+            ctx.fillRect(13 * s, -16 * s - bob, 5 * s, 8 * s);
+            ctx.strokeStyle = npc.accColor;
+            ctx.lineWidth = 1 * s;
+            ctx.beginPath();
+            ctx.arc(15.5 * s, -17 * s - bob, 2.5 * s, Math.PI, 0);
+            ctx.stroke();
+          }
+
+          ctx.restore();
+        });
+      }
+
+      // ==================== GAME LOOP ====================
+      function gameLoop() {
+        updateAnimations();
+        updateMobileCamera();
+        update();
+        render();
+        requestAnimationFrame(gameLoop);
+      }
+
+      gameLoop();
+    </script>
+  </body>
+</html>
