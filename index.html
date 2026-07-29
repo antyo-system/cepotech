@@ -3214,8 +3214,8 @@
         }
 
         player.x = Math.max(
-          10,
-          Math.min(CONFIG.GAME_WIDTH - player.width - 10, player.x),
+          35,
+          Math.min(CONFIG.GAME_WIDTH - player.width - 35, player.x),
         );
 
         // ---- JUMP PHYSICS ----
@@ -3497,11 +3497,6 @@
         ctx.save();
         ctx.scale(canvasDPR, canvasDPR);
 
-        // Draw sky first without camera transformation (fills entire canvas)
-        drawSky();
-        if (currentTime.stars) drawStars();
-        drawShootingStars();
-
         // Apply camera transformation
         ctx.save();
 
@@ -3514,10 +3509,13 @@
           ctx.scale(zoom, zoom);
           ctx.translate(-state.cutscene.cameraX, -state.cutscene.cameraY);
         } else if (mobileCamera.enabled) {
-          // Mobile camera: horizontal pan only (CSS cover handles portrait zoom)
+          // Mobile camera: horizontal pan only
           ctx.translate(mobileCamera.translateX, 0);
         }
 
+        drawSky();
+        if (currentTime.stars) drawStars();
+        drawShootingStars();
         drawClouds();
         drawBuildings();
         drawSakuraPetals();
@@ -3543,8 +3541,11 @@
           gradient.addColorStop(position, color);
         });
 
+        const extX = -1000;
+        const extW = CONFIG.GAME_WIDTH + 2000;
+
         ctx.fillStyle = gradient;
-        ctx.fillRect(0, 0, CONFIG.GAME_WIDTH, CONFIG.GAME_HEIGHT);
+        ctx.fillRect(extX, 0, extW, CONFIG.GAME_HEIGHT);
         // Ambient light overlay based on time of day
         ctx.save();
         let ambient;
@@ -3560,7 +3561,7 @@
           ambient = 'rgba(255,255,255,0.04)';
         }
         ctx.fillStyle = ambient;
-        ctx.fillRect(0, 0, CONFIG.GAME_WIDTH, CONFIG.GAME_HEIGHT);
+        ctx.fillRect(extX, 0, extW, CONFIG.GAME_HEIGHT);
         ctx.restore();
       }
 
@@ -3741,36 +3742,64 @@
       function drawCat() {}
 
       function drawStreet() {
+        const extX = -1000;
+        const extW = CONFIG.GAME_WIDTH + 2000;
+
         ctx.fillStyle = "#9E9E9E";
-        ctx.fillRect(0, CONFIG.GROUND_Y, CONFIG.GAME_WIDTH, 30);
+        ctx.fillRect(extX, CONFIG.GROUND_Y, extW, 30);
         // Soft shadow gradient under buildings and NPCs
         const shadowGrad = ctx.createLinearGradient(0, CONFIG.GROUND_Y, 0, CONFIG.GROUND_Y + 30);
         shadowGrad.addColorStop(0, 'rgba(60,60,80,0.18)');
         shadowGrad.addColorStop(0.7, 'rgba(60,60,80,0.05)');
         shadowGrad.addColorStop(1, 'rgba(60,60,80,0)');
         ctx.fillStyle = shadowGrad;
-        ctx.fillRect(0, CONFIG.GROUND_Y, CONFIG.GAME_WIDTH, 30);
+        ctx.fillRect(extX, CONFIG.GROUND_Y, extW, 30);
 
         drawGrass();
 
         ctx.fillStyle = "#757575";
-        ctx.fillRect(0, CONFIG.GROUND_Y + 25, CONFIG.GAME_WIDTH, 5);
+        ctx.fillRect(extX, CONFIG.GROUND_Y + 25, extW, 5);
 
         ctx.fillStyle = "#424242";
-        ctx.fillRect(0, CONFIG.GROUND_Y + 30, CONFIG.GAME_WIDTH, 50);
+        ctx.fillRect(extX, CONFIG.GROUND_Y + 30, extW, 50);
 
         ctx.fillStyle = "#FFF";
-        for (let i = 0; i < 10; i++) {
-          ctx.fillRect(50 + i * 85, CONFIG.GROUND_Y + 52, 40, 6);
+        for (let i = -10; i < 25; i++) {
+          ctx.fillRect(i * 85, CONFIG.GROUND_Y + 52, 40, 6);
         }
 
         ctx.fillStyle = "#616161";
-        ctx.fillRect(0, CONFIG.GROUND_Y + 28, CONFIG.GAME_WIDTH, 4);
+        ctx.fillRect(extX, CONFIG.GROUND_Y + 28, extW, 4);
 
         ctx.fillStyle = "#FFF";
         for (let i = 0; i < 6; i++) {
           ctx.fillRect(620 + i * 25, CONFIG.GROUND_Y + 30, 15, 50);
         }
+
+        drawBoundaryWalls();
+      }
+
+      function drawBoundaryWalls() {
+        // Left Boundary Pillar Wall (at x = 0..32)
+        ctx.fillStyle = "#2a2b45";
+        ctx.fillRect(0, CONFIG.GROUND_Y - 150, 32, 150);
+        ctx.fillStyle = "#3a3b5c";
+        ctx.fillRect(4, CONFIG.GROUND_Y - 146, 24, 142);
+        ctx.fillStyle = "#FFC93C";
+        ctx.fillRect(8, CONFIG.GROUND_Y - 130, 16, 8);
+        ctx.fillStyle = "#FF3B30";
+        ctx.fillRect(10, CONFIG.GROUND_Y - 110, 12, 12);
+
+        // Right Boundary Pillar Wall (at x = CONFIG.GAME_WIDTH - 32..CONFIG.GAME_WIDTH)
+        const rx = CONFIG.GAME_WIDTH - 32;
+        ctx.fillStyle = "#2a2b45";
+        ctx.fillRect(rx, CONFIG.GROUND_Y - 150, 32, 150);
+        ctx.fillStyle = "#3a3b5c";
+        ctx.fillRect(rx + 4, CONFIG.GROUND_Y - 146, 24, 142);
+        ctx.fillStyle = "#FFC93C";
+        ctx.fillRect(rx + 8, CONFIG.GROUND_Y - 130, 16, 8);
+        ctx.fillStyle = "#FF3B30";
+        ctx.fillRect(rx + 10, CONFIG.GROUND_Y - 110, 12, 12);
       }
 
       function drawGrass() {
