@@ -1608,6 +1608,47 @@
         background: linear-gradient(135deg, #2EE673, #15A889);
       }
 
+      /* Live iframe & Live Screenshot API styling */
+      .modal-iframe-container {
+        width: 100%;
+        border-radius: 16px 16px 0 0;
+        overflow: hidden;
+        background: #090B18;
+        border-bottom: 1.5px solid rgba(136, 204, 255, 0.25);
+      }
+
+      .iframe-view-box {
+        position: relative;
+        width: 100%;
+        height: 380px;
+        background: #0d1024;
+      }
+
+      .iframe-view-box iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        background: #FFFFFF;
+      }
+
+      .modal-fallback-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .open-external-icon {
+        margin-left: auto;
+        color: #FFC93C;
+        font-size: 9px;
+        text-decoration: none;
+        font-family: "Press Start 2P", cursive;
+        transition: color 0.2s;
+      }
+      .open-external-icon:hover {
+        color: #FFFFFF;
+      }
+
       .site-footer {
         width: 100%;
         background: rgba(10, 11, 25, 0.98);
@@ -1941,7 +1982,7 @@
           <!-- Card 1: LampungNew -->
           <div class="card-item portfolio-card" data-category="web">
             <div class="portfolio-thumb-wrapper">
-              <img src="/sreenshoot lampung new.png" alt="LampungNew Portal Berita" class="portfolio-thumb-img" onerror="this.onerror=null; this.src='/logo-lampungnew.png';" />
+              <img src="https://s0.wp.com/mshots/v1/https%3A%2F%2Flampungnew.com?w=1000" alt="LampungNew Portal Berita" class="portfolio-thumb-img" onerror="this.onerror=null; this.src='/sreenshoot lampung new.png';" />
               <div class="thumb-badge live">🌐 Live Web</div>
             </div>
             <div class="portfolio-content">
@@ -1957,7 +1998,7 @@
                   <span>🌐</span> Kunjungi Web
                 </a>
                 <button class="port-btn secondary" onclick="openPortfolioModal('lampungnew')">
-                  <span>🔍</span> Detail UI/UX
+                  <span>🔍</span> Live Preview & Detail
                 </button>
               </div>
             </div>
@@ -1966,7 +2007,7 @@
           <!-- Card 2: Kembang Seladang -->
           <div class="card-item portfolio-card" data-category="web">
             <div class="portfolio-thumb-wrapper">
-              <img src="/kembangseladang-preview.png" alt="Kembang Seladang Online Florist Store" class="portfolio-thumb-img" />
+              <img src="https://s0.wp.com/mshots/v1/https%3A%2F%2Fkembangseladang.com?w=1000" alt="Kembang Seladang Online Florist Store" class="portfolio-thumb-img" onerror="this.onerror=null; this.src='/kembangseladang-preview.png';" />
               <div class="thumb-badge live">🌐 Live Web</div>
             </div>
             <div class="portfolio-content">
@@ -1982,7 +2023,7 @@
                   <span>🌐</span> Kunjungi Web
                 </a>
                 <button class="port-btn secondary" onclick="openPortfolioModal('kembangseladang')">
-                  <span>🔍</span> Detail UI/UX
+                  <span>🔍</span> Live Preview & Detail
                 </button>
               </div>
             </div>
@@ -1991,7 +2032,7 @@
           <!-- Card 3: Admin Kembang Seladang -->
           <div class="card-item portfolio-card" data-category="erp">
             <div class="portfolio-thumb-wrapper">
-              <img src="/adminkembangseladang-preview.png" alt="Admin Kembang Seladang ERP & POS System" class="portfolio-thumb-img" />
+              <img src="https://s0.wp.com/mshots/v1/https%3A%2F%2Fadminkembangseladang.com?w=1000" alt="Admin Kembang Seladang ERP & POS System" class="portfolio-thumb-img" onerror="this.onerror=null; this.src='/adminkembangseladang-preview.png';" />
               <div class="thumb-badge erp">⚙️ Web ERP System</div>
             </div>
             <div class="portfolio-content">
@@ -2007,7 +2048,7 @@
                   <span>🌐</span> Kunjungi Portal
                 </a>
                 <button class="port-btn secondary" onclick="openPortfolioModal('adminkembangseladang')">
-                  <span>🔍</span> Detail UI/UX
+                  <span>🔍</span> Live Preview & Detail
                 </button>
               </div>
             </div>
@@ -2016,7 +2057,7 @@
           <!-- Card 4: IAA Garage -->
           <div class="card-item portfolio-card" data-category="web">
             <div class="portfolio-thumb-wrapper">
-              <img src="/iagarage-preview.png" alt="IAA Garage Automotive Hub" class="portfolio-thumb-img" />
+              <img src="https://s0.wp.com/mshots/v1/https%3A%2F%2Fiagarage.id?w=1000" alt="IAA Garage Automotive Hub" class="portfolio-thumb-img" onerror="this.onerror=null; this.src='/iagarage-preview.png';" />
               <div class="thumb-badge live">🌐 Live Web</div>
             </div>
             <div class="portfolio-content">
@@ -2032,7 +2073,7 @@
                   <span>🌐</span> Kunjungi Web
                 </a>
                 <button class="port-btn secondary" onclick="openPortfolioModal('iagarage')">
-                  <span>🔍</span> Detail UI/UX
+                  <span>🔍</span> Live Preview & Detail
                 </button>
               </div>
             </div>
@@ -2041,7 +2082,7 @@
           <!-- Card 5: Focus App -->
           <div class="card-item portfolio-card" data-category="mobile">
             <div class="portfolio-thumb-wrapper">
-              <img src="/focusapp-preview.png" alt="Focus App Pomodoro & Task Manager" class="portfolio-thumb-img" />
+              <img src="https://s0.wp.com/mshots/v1/https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.antyo.focus?w=1000" alt="Focus App Pomodoro & Task Manager" class="portfolio-thumb-img" onerror="this.onerror=null; this.src='/focusapp-preview.png';" />
               <div class="thumb-badge mobile">📱 Google Play Store</div>
             </div>
             <div class="portfolio-content">
@@ -2057,7 +2098,7 @@
                   <span>📱</span> Play Store
                 </a>
                 <button class="port-btn secondary" onclick="openPortfolioModal('focusapp')">
-                  <span>🔍</span> Detail UI/UX
+                  <span>🔍</span> Live Preview & Detail
                 </button>
               </div>
             </div>
@@ -2073,9 +2114,21 @@
     <div class="port-modal-overlay" id="portfolioModal" onclick="closePortfolioModalOnBackdrop(event)">
       <div class="port-modal-box">
         <button class="port-modal-close" onclick="closePortfolioModal()">&times;</button>
-        <div id="modalHeaderBg" class="port-modal-header-bg">
-          <div class="port-modal-badge" id="modalBadge">🌐 Live Web</div>
+        
+        <!-- Interactive Live Iframe & Live Preview Header -->
+        <div class="modal-iframe-container" id="modalIframeContainer">
+          <div class="mockup-header-bar">
+            <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+            <span class="mock-url" id="modalFrameUrl">https://lampungnew.com</span>
+            <span class="thumb-badge live" id="modalBadge" style="position: static; margin-left: 8px;">🌐 Live Web</span>
+            <a id="modalExternalLink" href="#" target="_blank" rel="noopener" class="open-external-icon">🌐 Buka di Tab Baru ↗</a>
+          </div>
+          <div class="iframe-view-box">
+            <iframe id="modalIframe" src="" title="Live Website Preview" loading="lazy" sandbox="allow-scripts allow-same-origin allow-popups allow-forms"></iframe>
+            <img id="modalFallbackImg" src="" alt="Live Screenshot Preview" class="modal-fallback-img" style="display: none;" />
+          </div>
         </div>
+
         <div class="port-modal-body">
           <div class="port-modal-tags" id="modalTags"></div>
           <h2 class="port-modal-title" id="modalTitle">Project Title</h2>
@@ -4551,13 +4604,16 @@
         });
       });
 
-      // Modal Logic
+      // Modal Logic with Live Iframe Embed & Live API Fallback
       function openPortfolioModal(key) {
         const data = PORTFOLIO_DATA[key];
         if (!data) return;
 
         const modal = document.getElementById("portfolioModal");
-        const modalHeaderBg = document.getElementById("modalHeaderBg");
+        const modalFrameUrl = document.getElementById("modalFrameUrl");
+        const modalExternalLink = document.getElementById("modalExternalLink");
+        const modalIframe = document.getElementById("modalIframe");
+        const modalFallbackImg = document.getElementById("modalFallbackImg");
         const modalBadge = document.getElementById("modalBadge");
         const modalTags = document.getElementById("modalTags");
         const modalTitle = document.getElementById("modalTitle");
@@ -4568,31 +4624,58 @@
         const modalLiveBtn = document.getElementById("modalLiveBtn");
         const modalWaBtn = document.getElementById("modalWaBtn");
 
-        modalHeaderBg.style.cssText = data.bgStyle;
-        modalBadge.textContent = data.badge;
-        modalBadge.className = `port-modal-badge ${data.badgeClass}`;
+        if (modalFrameUrl) modalFrameUrl.textContent = data.url;
+        if (modalExternalLink) modalExternalLink.href = data.url;
 
-        modalTags.innerHTML = data.tags.map(t => `<span class="port-tag">${t}</span>`).join("");
-        modalTitle.textContent = data.title;
-        modalUrl.textContent = data.displayUrl;
-        modalUrl.href = data.url;
-        modalDesc.textContent = data.desc;
+        if (modalBadge) {
+          modalBadge.textContent = data.badge;
+          modalBadge.className = `thumb-badge ${data.badgeClass}`;
+        }
 
-        modalFeatures.innerHTML = data.features.map(f => `<li>${f}</li>`).join("");
-        modalTechStack.innerHTML = data.techStack.map(t => `<span class="tech-chip">${t}</span>`).join("");
+        // Live iframe vs Live Screenshot API Fallback
+        if (key === 'focusapp') {
+          // Play Store blocks iframe embedding via X-Frame-Options: SAMEORIGIN
+          if (modalIframe) modalIframe.style.display = "none";
+          if (modalFallbackImg) {
+            modalFallbackImg.style.display = "block";
+            modalFallbackImg.src = `https://s0.wp.com/mshots/v1/${encodeURIComponent(data.url)}?w=1000`;
+            modalFallbackImg.onerror = () => { modalFallbackImg.src = '/focusapp-preview.png'; };
+          }
+        } else {
+          if (modalIframe) {
+            modalIframe.style.display = "block";
+            modalIframe.src = data.url;
+          }
+          if (modalFallbackImg) modalFallbackImg.style.display = "none";
+        }
 
-        modalLiveBtn.href = data.url;
-        modalLiveBtn.textContent = data.badge.includes("Play Store") ? "📱 Buka di Play Store" : "🌐 Buka Website Live";
-        modalWaBtn.href = `https://wa.me/6285777203153?text=${data.waMessage}`;
+        if (modalTags) modalTags.innerHTML = data.tags.map(t => `<span class="port-tag">${t}</span>`).join("");
+        if (modalTitle) modalTitle.textContent = data.title;
+        if (modalUrl) {
+          modalUrl.textContent = data.displayUrl;
+          modalUrl.href = data.url;
+        }
+        if (modalDesc) modalDesc.textContent = data.desc;
 
-        modal.classList.add("active");
+        if (modalFeatures) modalFeatures.innerHTML = data.features.map(f => `<li>${f}</li>`).join("");
+        if (modalTechStack) modalTechStack.innerHTML = data.techStack.map(t => `<span class="tech-chip">${t}</span>`).join("");
+
+        if (modalLiveBtn) {
+          modalLiveBtn.href = data.url;
+          modalLiveBtn.textContent = data.badge.includes("Play Store") ? "📱 Buka di Play Store" : "🌐 Buka Website Live";
+        }
+        if (modalWaBtn) modalWaBtn.href = `https://wa.me/6285777203153?text=${data.waMessage}`;
+
+        if (modal) modal.classList.add("active");
         document.body.style.overflow = "hidden";
       }
 
       function closePortfolioModal() {
         const modal = document.getElementById("portfolioModal");
+        const modalIframe = document.getElementById("modalIframe");
         if (modal) {
           modal.classList.remove("active");
+          if (modalIframe) modalIframe.src = "";
           document.body.style.overflow = "";
         }
       }
