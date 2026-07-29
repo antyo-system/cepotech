@@ -1149,6 +1149,465 @@
         border-radius: 20px;
       }
 
+      /* ==================== PORTFOLIO ENHANCEMENTS ==================== */
+      .portfolio-filter {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 28px;
+        justify-content: center;
+      }
+
+      .filter-btn {
+        background: rgba(20, 24, 50, 0.7);
+        border: 1px solid rgba(100, 120, 180, 0.3);
+        color: #AADDFF;
+        font-family: "Press Start 2P", cursive;
+        font-size: 9px;
+        padding: 10px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: all 0.25s ease;
+      }
+
+      .filter-btn:hover {
+        background: rgba(40, 50, 90, 0.9);
+        border-color: #88CCFF;
+        color: #FFF;
+      }
+
+      .filter-btn.active {
+        background: linear-gradient(135deg, #FF3B30, #FFC93C);
+        color: #000;
+        border-color: transparent;
+        box-shadow: 0 0 14px rgba(255, 59, 48, 0.5);
+      }
+
+      .portfolio-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 28px;
+        margin-bottom: 35px;
+      }
+
+      .portfolio-card {
+        display: flex;
+        flex-direction: column;
+        background: rgba(14, 17, 38, 0.75);
+        border: 1px solid rgba(100, 120, 180, 0.25);
+        border-radius: 16px;
+        overflow: hidden;
+        transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+
+      .portfolio-card:hover {
+        transform: translateY(-6px);
+        border-color: #88CCFF;
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4), 0 0 20px rgba(136, 204, 255, 0.25);
+      }
+
+      .portfolio-thumb-wrapper {
+        position: relative;
+        height: 180px;
+        width: 100%;
+        background: #0d1024;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .portfolio-thumb-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+      }
+
+      .portfolio-card:hover .portfolio-thumb-img {
+        transform: scale(1.06);
+      }
+
+      /* Mockup Backgrounds & Styles */
+      .mock-bg-florist {
+        background: linear-gradient(135deg, #2D1525, #4A1A35, #1A0E2E);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 12px;
+      }
+
+      .mock-bg-erp {
+        background: linear-gradient(135deg, #0F2027, #203A43, #2C5364);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 12px;
+      }
+
+      .mock-bg-auto {
+        background: linear-gradient(135deg, #1C1A27, #2A2438, #352F44);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 12px;
+      }
+
+      .mock-bg-mobile {
+        background: linear-gradient(135deg, #141E30, #243B55);
+        padding: 12px;
+      }
+
+      .mockup-header-bar {
+        width: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        border-radius: 6px;
+        padding: 6px 10px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-family: monospace;
+      }
+
+      .mockup-header-bar .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+      }
+      .mockup-header-bar .dot.red { background: #FF5F56; }
+      .mockup-header-bar .dot.yellow { background: #FFBD2E; }
+      .mockup-header-bar .dot.green { background: #27C93F; }
+
+      .mock-url {
+        color: #AADDFF;
+        font-size: 11px;
+        margin-left: 8px;
+      }
+
+      .mockup-body-content {
+        text-align: center;
+        margin: auto;
+      }
+
+      .mock-hero-text {
+        font-family: "Press Start 2P", cursive;
+        font-size: 12px;
+        color: #FFC93C;
+        margin-bottom: 6px;
+        text-shadow: 0 0 8px rgba(255, 201, 60, 0.5);
+      }
+
+      .mock-sub-text {
+        color: #DDD;
+        font-size: 14px;
+      }
+
+      .mockup-phone-frame {
+        width: 110px;
+        height: 140px;
+        border: 3px solid #334;
+        border-radius: 16px;
+        background: #090B18;
+        margin: auto;
+        padding: 8px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .phone-screen {
+        text-align: center;
+      }
+
+      .phone-app-title {
+        font-family: "Press Start 2P", cursive;
+        font-size: 8px;
+        color: #25D366;
+        margin-bottom: 6px;
+      }
+
+      .phone-app-subtitle {
+        font-size: 10px;
+        color: #AAA;
+      }
+
+      .thumb-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-family: "Press Start 2P", cursive;
+        font-size: 7px;
+        padding: 5px 9px;
+        border-radius: 12px;
+        backdrop-filter: blur(8px);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      }
+      .thumb-badge.live { background: rgba(39, 201, 63, 0.25); color: #55FF88; border: 1px solid #27C93F; }
+      .thumb-badge.erp { background: rgba(0, 170, 255, 0.25); color: #77CCFF; border: 1px solid #00AAFF; }
+      .thumb-badge.mobile { background: rgba(255, 201, 60, 0.25); color: #FFE066; border: 1px solid #FFC93C; }
+
+      .portfolio-content {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+      }
+
+      .portfolio-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: auto;
+        padding-top: 16px;
+      }
+
+      .port-btn {
+        flex: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        font-family: "Press Start 2P", cursive;
+        font-size: 8px;
+        padding: 10px;
+        border-radius: 8px;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: none;
+      }
+
+      .port-btn.primary {
+        background: linear-gradient(135deg, #4A8C5C, #3A7A4C);
+        color: #FFF;
+        box-shadow: 0 3px 10px rgba(74, 140, 92, 0.3);
+      }
+
+      .port-btn.primary.playstore {
+        background: linear-gradient(135deg, #25D366, #128C7E);
+      }
+
+      .port-btn.primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(74, 140, 92, 0.5);
+      }
+
+      .port-btn.secondary {
+        background: rgba(70, 70, 110, 0.4);
+        color: #AADDFF;
+        border: 1px solid rgba(100, 120, 180, 0.3);
+      }
+
+      .port-btn.secondary:hover {
+        background: rgba(90, 90, 130, 0.6);
+        color: #FFF;
+        border-color: #88CCFF;
+      }
+
+      /* ==================== PORTFOLIO MODAL ==================== */
+      .port-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(5, 7, 20, 0.85);
+        backdrop-filter: blur(10px);
+        z-index: 1000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .port-modal-overlay.active {
+        display: flex;
+        animation: fadeIn 0.25s ease-out;
+      }
+
+      .port-modal-box {
+        position: relative;
+        background: rgba(20, 24, 52, 0.96);
+        border: 1.5px solid rgba(136, 204, 255, 0.35);
+        border-radius: 18px;
+        width: 100%;
+        max-width: 620px;
+        max-height: 85vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(136, 204, 255, 0.15);
+      }
+
+      .port-modal-close {
+        position: absolute;
+        top: 14px;
+        right: 18px;
+        background: rgba(0,0,0,0.5);
+        border: 1px solid rgba(255,255,255,0.2);
+        color: #FFF;
+        font-size: 24px;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        cursor: pointer;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+      }
+
+      .port-modal-close:hover {
+        background: #FF3B30;
+        border-color: transparent;
+      }
+
+      .port-modal-header-bg {
+        height: 160px;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        display: flex;
+        align-items: flex-end;
+        padding: 16px;
+      }
+
+      .port-modal-badge {
+        font-family: "Press Start 2P", cursive;
+        font-size: 8px;
+        padding: 6px 12px;
+        border-radius: 20px;
+        background: rgba(0,0,0,0.7);
+        color: #55FF88;
+        border: 1px solid #27C93F;
+      }
+
+      .port-modal-body {
+        padding: 24px;
+      }
+
+      .port-modal-tags {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+      }
+
+      .port-modal-title {
+        font-family: "Press Start 2P", cursive;
+        font-size: 14px;
+        color: #FFF;
+        margin-bottom: 10px;
+      }
+
+      .port-modal-url {
+        font-size: 15px;
+        color: #88CCFF;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .port-modal-url a {
+        color: #88CCFF;
+        text-decoration: underline;
+      }
+
+      .port-modal-desc {
+        color: #DDD;
+        font-size: 16px;
+        line-height: 1.6;
+        margin-bottom: 20px;
+      }
+
+      .port-modal-section {
+        margin-bottom: 20px;
+        background: rgba(10, 12, 28, 0.5);
+        padding: 16px;
+        border-radius: 12px;
+        border: 1px solid rgba(100, 120, 180, 0.2);
+      }
+
+      .port-modal-section h4 {
+        font-family: "Press Start 2P", cursive;
+        font-size: 10px;
+        color: #FFC93C;
+        margin-bottom: 12px;
+      }
+
+      .port-modal-features {
+        list-style: none;
+        padding-left: 0;
+      }
+
+      .port-modal-features li {
+        font-size: 15px;
+        color: #CCC;
+        margin-bottom: 8px;
+        padding-left: 18px;
+        position: relative;
+      }
+
+      .port-modal-features li::before {
+        content: "✔";
+        color: #55FF88;
+        position: absolute;
+        left: 0;
+      }
+
+      .port-modal-techstack {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .tech-chip {
+        background: rgba(136, 204, 255, 0.15);
+        color: #AADDFF;
+        border: 1px solid rgba(136, 204, 255, 0.3);
+        padding: 5px 12px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-family: monospace;
+      }
+
+      .port-modal-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 24px;
+        flex-wrap: wrap;
+      }
+
+      .port-modal-btn {
+        flex: 1;
+        min-width: 200px;
+        text-align: center;
+        padding: 14px 20px;
+        border-radius: 30px;
+        font-family: "Press Start 2P", cursive;
+        font-size: 9px;
+        text-decoration: none;
+        transition: all 0.2s;
+      }
+
+      .port-modal-btn.primary {
+        background: linear-gradient(135deg, #4A8C5C, #3A7A4C);
+        color: white;
+      }
+      .port-modal-btn.primary:hover {
+        transform: translateY(-2px);
+        background: linear-gradient(135deg, #5AAA6C, #4A9A5C);
+      }
+
+      .port-modal-btn.whatsapp {
+        background: linear-gradient(135deg, #25D366, #128C7E);
+        color: white;
+      }
+      .port-modal-btn.whatsapp:hover {
+        transform: translateY(-2px);
+        background: linear-gradient(135deg, #2EE673, #15A889);
+      }
+
       .site-footer {
         width: 100%;
         background: rgba(10, 11, 25, 0.98);
@@ -1467,51 +1926,207 @@
         <div class="section-badge">📁 CASE STUDIES</div>
         <h2 class="section-title">5. Portofolio Success Stories</h2>
         <p class="section-desc">
-          Koleksi karya dan proyek sukses yang telah dipercayai oleh klien dari berbagai industri mulai dari UMKM hingga perusahaan skala besar.
+          Koleksi karya dan proyek sukses yang telah dipercayai oleh klien dari berbagai industri mulai dari portal media, e-commerce, sistem ERP kasir & supply chain, hingga aplikasi mobile Android.
         </p>
 
-        <div class="cards-grid">
-          <div class="card-item">
-            <div class="portfolio-tags">
-              <span class="port-tag">WEB APP</span>
-              <span class="port-tag">SAAS</span>
+        <!-- Category Filter Tabs -->
+        <div class="portfolio-filter">
+          <button class="filter-btn active" data-filter="all">Semua Proyek (5)</button>
+          <button class="filter-btn" data-filter="web">Web & E-Commerce</button>
+          <button class="filter-btn" data-filter="erp">ERP & System</button>
+          <button class="filter-btn" data-filter="mobile">Mobile App</button>
+        </div>
+
+        <div class="cards-grid portfolio-grid">
+          <!-- Card 1: LampungNew -->
+          <div class="card-item portfolio-card" data-category="web">
+            <div class="portfolio-thumb-wrapper">
+              <img src="/sreenshoot lampung new.png" alt="LampungNew Portal Berita" class="portfolio-thumb-img" onerror="this.onerror=null; this.src='/logo-lampungnew.png';" />
+              <div class="thumb-badge live">🌐 Live Web</div>
             </div>
-            <h3 class="card-title">Fintech SaaS Payment Gateway</h3>
-            <p class="card-text">Platform pemrosesan pembayaran otomatis dengan dashboard analitik dan keamanan enkripsi bank.</p>
+            <div class="portfolio-content">
+              <div class="portfolio-tags">
+                <span class="port-tag">MEDIA</span>
+                <span class="port-tag">NEWS PORTAL</span>
+                <span class="port-tag">SEO</span>
+              </div>
+              <h3 class="card-title">LampungNew - Portal Berita Digital</h3>
+              <p class="card-text">Portal media berita online multi-kategori dengan performa load super cepat, custom CMS, terstruktur SEO Google News, dan tata letak responsive mobile-first.</p>
+              <div class="portfolio-actions">
+                <a href="https://lampungnew.com" target="_blank" rel="noopener" class="port-btn primary">
+                  <span>🌐</span> Kunjungi Web
+                </a>
+                <button class="port-btn secondary" onclick="openPortfolioModal('lampungnew')">
+                  <span>🔍</span> Detail UI/UX
+                </button>
+              </div>
+            </div>
           </div>
 
-          <div class="card-item">
-            <div class="portfolio-tags">
-              <span class="port-tag">ERP SYSTEM</span>
-              <span class="port-tag">RETAIL</span>
+          <!-- Card 2: Kembang Seladang -->
+          <div class="card-item portfolio-card" data-category="web">
+            <div class="portfolio-thumb-wrapper mock-bg-florist">
+              <div class="mockup-header-bar">
+                <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                <span class="mock-url">kembangseladang.com</span>
+              </div>
+              <div class="mockup-body-content">
+                <div class="mock-hero-text">🌸 Kembang Seladang</div>
+                <div class="mock-sub-text">Premium Florist & Gift Store</div>
+              </div>
+              <div class="thumb-badge live">🌐 Live Web</div>
             </div>
-            <h3 class="card-title">Multi-Outlet Retail POS & ERP</h3>
-            <p class="card-text">Sistem Kasir terintegrasi gudang untuk 25+ cabang jaringan retail nasional.</p>
+            <div class="portfolio-content">
+              <div class="portfolio-tags">
+                <span class="port-tag">E-COMMERCE</span>
+                <span class="port-tag">FLORIST</span>
+                <span class="port-tag">CATALOG</span>
+              </div>
+              <h3 class="card-title">Kembang Seladang - Online Florist Store</h3>
+              <p class="card-text">Toko bunga online premium dengan katalog interaktif, filter makna bunga unik, integrasi order WhatsApp instan, serta optimasi SEO lokal tinggi.</p>
+              <div class="portfolio-actions">
+                <a href="https://kembangseladang.com" target="_blank" rel="noopener" class="port-btn primary">
+                  <span>🌐</span> Kunjungi Web
+                </a>
+                <button class="port-btn secondary" onclick="openPortfolioModal('kembangseladang')">
+                  <span>🔍</span> Detail UI/UX
+                </button>
+              </div>
+            </div>
           </div>
 
-          <div class="card-item">
-            <div class="portfolio-tags">
-              <span class="port-tag">E-COMMERCE</span>
-              <span class="port-tag">GROWTH</span>
+          <!-- Card 3: Admin Kembang Seladang -->
+          <div class="card-item portfolio-card" data-category="erp">
+            <div class="portfolio-thumb-wrapper mock-bg-erp">
+              <div class="mockup-header-bar">
+                <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                <span class="mock-url">adminkembangseladang.com</span>
+              </div>
+              <div class="mockup-body-content">
+                <div class="mock-hero-text">📊 ERP & Supply Chain System</div>
+                <div class="mock-sub-text">Stok, Kasir POS & Catat Kulakan</div>
+              </div>
+              <div class="thumb-badge erp">⚙️ Web ERP System</div>
             </div>
-            <h3 class="card-title">Global Storefront & Ads Campaign</h3>
-            <p class="card-text">Toko online internasional dengan performa tinggi & strategi pertumbuhan iklan hingga 5x ROAS.</p>
+            <div class="portfolio-content">
+              <div class="portfolio-tags">
+                <span class="port-tag">ERP SYSTEM</span>
+                <span class="port-tag">POS & KASIR</span>
+                <span class="port-tag">SUPPLY CHAIN</span>
+              </div>
+              <h3 class="card-title">Admin Kembang Seladang - ERP & POS</h3>
+              <p class="card-text">Sistem operasional toko terpadu: pencatatan kulakan (supply chain), kasir POS multi-kasir, manajemen persediaan stok real-time, & analitik keuangan.</p>
+              <div class="portfolio-actions">
+                <a href="https://adminkembangseladang.com" target="_blank" rel="noopener" class="port-btn primary">
+                  <span>🌐</span> Kunjungi Portal
+                </a>
+                <button class="port-btn secondary" onclick="openPortfolioModal('adminkembangseladang')">
+                  <span>🔍</span> Detail UI/UX
+                </button>
+              </div>
+            </div>
           </div>
 
-          <div class="card-item">
-            <div class="portfolio-tags">
-              <span class="port-tag">ACADEMY</span>
-              <span class="port-tag">EDTECH</span>
+          <!-- Card 4: IAA Garage -->
+          <div class="card-item portfolio-card" data-category="web">
+            <div class="portfolio-thumb-wrapper mock-bg-auto">
+              <div class="mockup-header-bar">
+                <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                <span class="mock-url">iagarage.id</span>
+              </div>
+              <div class="mockup-body-content">
+                <div class="mock-hero-text">🏎️ IAA Garage Platform</div>
+                <div class="mock-sub-text">Automotive & Workshop Service Hub</div>
+              </div>
+              <div class="thumb-badge live">🌐 Live Web</div>
             </div>
-            <h3 class="card-title">Interactive Learning Portal</h3>
-            <p class="card-text">Platform pembelajaran interaktif berbasis web dengan video streaming & kuis otomatis.</p>
+            <div class="portfolio-content">
+              <div class="portfolio-tags">
+                <span class="port-tag">AUTOMOTIVE</span>
+                <span class="port-tag">WORKSHOP</span>
+                <span class="port-tag">BOOKING</span>
+              </div>
+              <h3 class="card-title">IAA Garage - Automotive Service Hub</h3>
+              <p class="card-text">Platform digital bengkel & servis otomotif dengan fitur online booking service, katalog sparepart, serta pelacakan riwayat perawatan kendaraan.</p>
+              <div class="portfolio-actions">
+                <a href="https://iagarage.id" target="_blank" rel="noopener" class="port-btn primary">
+                  <span>🌐</span> Kunjungi Web
+                </a>
+                <button class="port-btn secondary" onclick="openPortfolioModal('iagarage')">
+                  <span>🔍</span> Detail UI/UX
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 5: Focus App -->
+          <div class="card-item portfolio-card" data-category="mobile">
+            <div class="portfolio-thumb-wrapper mock-bg-mobile">
+              <div class="mockup-phone-frame">
+                <div class="phone-screen">
+                  <div class="phone-app-title">⏱️ FOCUS APP</div>
+                  <div class="phone-app-subtitle">Pomodoro & Task Tracker</div>
+                </div>
+              </div>
+              <div class="thumb-badge mobile">📱 Google Play Store</div>
+            </div>
+            <div class="portfolio-content">
+              <div class="portfolio-tags">
+                <span class="port-tag">MOBILE APP</span>
+                <span class="port-tag">ANDROID</span>
+                <span class="port-tag">PLAY STORE</span>
+              </div>
+              <h3 class="card-title">Focus App - Pomodoro & Task Manager</h3>
+              <p class="card-text">Aplikasi mobile Android untuk manajemen fokus & produktivitas harian dengan timer Pomodoro interaktif, visual statistik, & UI modern sleek.</p>
+              <div class="portfolio-actions">
+                <a href="https://play.google.com/store/apps/details?id=com.antyo.focus" target="_blank" rel="noopener" class="port-btn primary playstore">
+                  <span>📱</span> Play Store
+                </a>
+                <button class="port-btn secondary" onclick="openPortfolioModal('focusapp')">
+                  <span>🔍</span> Detail UI/UX
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
-        <a href="https://wa.me/6285777203153?text=Halo%20Cepotech,%20saya%20ingin%20melihat%20katalog%20Portofolio%20terbaru" target="_blank" class="section-cta">
-          <span>💬</span> Minta Katalog Portofolio Lengkap via WhatsApp
+        <a href="https://wa.me/6285777203153?text=Halo%20Cepotech,%20saya%20tertarik%20dengan%20portofolio%20kalian%20dan%20ingin%20diskusi%20proyek" target="_blank" class="section-cta">
+          <span>💬</span> Diskusi Proyek Anda via WhatsApp
         </a>
       </section>
+
+    <!-- Portfolio Detail Modal -->
+    <div class="port-modal-overlay" id="portfolioModal" onclick="closePortfolioModalOnBackdrop(event)">
+      <div class="port-modal-box">
+        <button class="port-modal-close" onclick="closePortfolioModal()">&times;</button>
+        <div id="modalHeaderBg" class="port-modal-header-bg">
+          <div class="port-modal-badge" id="modalBadge">🌐 Live Web</div>
+        </div>
+        <div class="port-modal-body">
+          <div class="port-modal-tags" id="modalTags"></div>
+          <h2 class="port-modal-title" id="modalTitle">Project Title</h2>
+          <div class="port-modal-url" id="modalUrlWrapper">
+            <span class="url-icon">🔗</span> <a id="modalUrl" href="#" target="_blank" rel="noopener">url.com</a>
+          </div>
+          <p class="port-modal-desc" id="modalDesc">Description</p>
+          
+          <div class="port-modal-section">
+            <h4>💡 Fitur & Keunggulan Utama</h4>
+            <ul class="port-modal-features" id="modalFeatures"></ul>
+          </div>
+
+          <div class="port-modal-section">
+            <h4>⚡ Tech Stack & Arsitektur</h4>
+            <div class="port-modal-techstack" id="modalTechStack"></div>
+          </div>
+
+          <div class="port-modal-actions">
+            <a id="modalLiveBtn" href="#" target="_blank" rel="noopener" class="port-modal-btn primary">🌐 Buka Website / App</a>
+            <a id="modalWaBtn" href="https://wa.me/6285777203153" target="_blank" rel="noopener" class="port-modal-btn whatsapp">💬 Konsultasi Proyek Serupa</a>
+          </div>
+        </div>
+      </div>
+    </div>
     </main>
 
     <!-- Site Footer -->
@@ -3843,6 +4458,182 @@
       }
 
       gameLoop();
+
+      // ==================== PORTFOLIO DATA & MODAL LOGIC ====================
+      const PORTFOLIO_DATA = {
+        lampungnew: {
+          title: "LampungNew - Portal Berita & Media Digital",
+          badge: "🌐 Live Website",
+          badgeClass: "live",
+          url: "https://lampungnew.com",
+          displayUrl: "lampungnew.com",
+          bgStyle: "background-image: url('/sreenshoot lampung new.png'); background-size: cover; background-position: center; background-color: #0d1024;",
+          tags: ["MEDIA", "NEWS PORTAL", "SEO"],
+          desc: "Portal media berita digital multi-kategori yang dirancang khusus untuk kecepatan tinggi, indeksasi Google News yang teroptimasi, serta pengalaman membaca tanpa hambatan di perangkat mobile.",
+          features: [
+            "CMS Custom Berita dengan pengelolaan kategori & tag dinamis",
+            "Struktur SEO Schema Markup (NewsArticle & BreadcrumbList)",
+            "Tata letak ultra-responsive mobile-first & Mode Baca Cepat",
+            "Kecepatan muat halaman di bawah 1.5 detik"
+          ],
+          techStack: ["React 19", "Vite", "Tailwind CSS", "SEO Schema", "Supabase", "TypeScript"],
+          waMessage: "Halo%20Cepotech,%20saya%20tertarik%20dengan%20pengembangan%20Portal%20Berita%20seperti%20LampungNew"
+        },
+        kembangseladang: {
+          title: "Kembang Seladang - Online Florist & Gift Store",
+          badge: "🌐 Live Website",
+          badgeClass: "live",
+          url: "https://kembangseladang.com",
+          displayUrl: "kembangseladang.com",
+          bgStyle: "background: linear-gradient(135deg, #2D1525, #4A1A35);",
+          tags: ["E-COMMERCE", "FLORIST", "CATALOG"],
+          desc: "Platform toko bunga & florist premium dengan sistem penelusuran katalog produk interaktif, fitur pencarian makna bunga, dan checkout langsung via WhatsApp.",
+          features: [
+            "Katalog Bunga Interaktif dengan filter kategori & makna bunga",
+            "Integrasi Form Pemesanan & Direct Checkout WhatsApp",
+            "Desain UI/UX aesthetic & responsive dengan pengalaman belanja mulus",
+            "Optimasi Local SEO untuk pencarian toko bunga"
+          ],
+          techStack: ["React", "Vite", "Tailwind CSS", "TypeScript", "WhatsApp API"],
+          waMessage: "Halo%20Cepotech,%20saya%20tertarik%20dengan%20pembuatan%20Toko%20Online%20seperti%20Kembang%20Seladang"
+        },
+        adminkembangseladang: {
+          title: "Admin Kembang Seladang - ERP & Supply Chain System",
+          badge: "⚙️ Web ERP System",
+          badgeClass: "erp",
+          url: "https://adminkembangseladang.com",
+          displayUrl: "adminkembangseladang.com",
+          bgStyle: "background: linear-gradient(135deg, #0F2027, #203A43, #2C5364);",
+          tags: ["ERP SYSTEM", "POS & KASIR", "SUPPLY CHAIN"],
+          desc: "Sistem Manajemen Operasional & Kasir (POS) khusus toko florist. Mengelola stok bunga, pencatatan transaksi kasir, serta modul supply chain 'Catat Kulakan' secara terpusat.",
+          features: [
+            "Fitur 'Catat Kulakan' untuk manajemen pengadaan barang & vendor",
+            "Sistem Kasir POS multi-user dengan cetak struk & laporan harian",
+            "Manajemen stok persediaan bunga real-time",
+            "Dashboard analitik omset, margin keuntungan, & laporan keuangan"
+          ],
+          techStack: ["React", "TypeScript", "Supabase DB", "Tailwind CSS", "Chart.js"],
+          waMessage: "Halo%20Cepotech,%20saya%20butuh%20Sistem%20ERP/Kasir%20seperti%20Admin%20Kembang%20Seladang"
+        },
+        iagarage: {
+          title: "IAA Garage - Automotive Service & Workshop Hub",
+          badge: "🌐 Live Website",
+          badgeClass: "live",
+          url: "https://iagarage.id",
+          displayUrl: "iagarage.id",
+          bgStyle: "background: linear-gradient(135deg, #1C1A27, #2A2438, #352F44);",
+          tags: ["AUTOMOTIVE", "WORKSHOP", "BOOKING"],
+          desc: "Platform digital servis otomotif & bengkel yang memudahkan pelanggan melakukan booking jadwal perawatan kendaraan, melihat katalog suku cadang, dan melacak riwayat servis.",
+          features: [
+            "Sistem Online Booking Service Jadwal Bengkel",
+            "Katalog Produk & Suku Cadang Otomotif Terorganisir",
+            "Fitur Pelacakan Riwayat Perawatan & Rekam Medis Kendaraan",
+            "Tampilan UI/UX modern bertema otomotif & sporty"
+          ],
+          techStack: ["React", "Vite", "Tailwind CSS", "Supabase", "TypeScript"],
+          waMessage: "Halo%20Cepotech,%20saya%20tertarik%20dengan%20aplikasi%20booking/layanan%20seperti%20IAA%20Garage"
+        },
+        focusapp: {
+          title: "Focus App - Pomodoro & Task Manager (Android)",
+          badge: "📱 Google Play Store",
+          badgeClass: "mobile",
+          url: "https://play.google.com/store/apps/details?id=com.antyo.focus",
+          displayUrl: "play.google.com/store/apps/details?id=com.antyo.focus",
+          bgStyle: "background: linear-gradient(135deg, #141E30, #243B55);",
+          tags: ["MOBILE APP", "ANDROID", "PLAY STORE"],
+          desc: "Aplikasi mobile Android yang dipublikasikan di Google Play Store untuk membantu pengguna meningkatkan fokus kerja dan manajemen waktu menggunakan teknik Pomodoro.",
+          features: [
+            "Timer Pomodoro Interaktif dengan kustomisasi interval kerja & istirahat",
+            "Manajemen Tugas (Task List) & Pelacakan Progress Produktivitas",
+            "Statistik visual harian & mingguan",
+            "Desain UI Dark Mode sleek, hemat baterai, & ringan dipasang"
+          ],
+          techStack: ["Android / Mobile Dev", "Kotlin", "Material Design", "Play Store Published"],
+          waMessage: "Halo%20Cepotech,%20saya%20ingin%20membuat%20Aplikasi%20Mobile%20Android%20seperti%20Focus%20App"
+        }
+      };
+
+      // Filter Logic
+      document.addEventListener("DOMContentLoaded", () => {
+        const filterBtns = document.querySelectorAll(".filter-btn");
+        const portfolioCards = document.querySelectorAll(".portfolio-card");
+
+        filterBtns.forEach(btn => {
+          btn.addEventListener("click", () => {
+            filterBtns.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            const filter = btn.getAttribute("data-filter");
+
+            portfolioCards.forEach(card => {
+              if (filter === "all" || card.getAttribute("data-category") === filter) {
+                card.style.display = "flex";
+                card.style.animation = "fadeIn 0.3s ease-out";
+              } else {
+                card.style.display = "none";
+              }
+            });
+          });
+        });
+      });
+
+      // Modal Logic
+      function openPortfolioModal(key) {
+        const data = PORTFOLIO_DATA[key];
+        if (!data) return;
+
+        const modal = document.getElementById("portfolioModal");
+        const modalHeaderBg = document.getElementById("modalHeaderBg");
+        const modalBadge = document.getElementById("modalBadge");
+        const modalTags = document.getElementById("modalTags");
+        const modalTitle = document.getElementById("modalTitle");
+        const modalUrl = document.getElementById("modalUrl");
+        const modalDesc = document.getElementById("modalDesc");
+        const modalFeatures = document.getElementById("modalFeatures");
+        const modalTechStack = document.getElementById("modalTechStack");
+        const modalLiveBtn = document.getElementById("modalLiveBtn");
+        const modalWaBtn = document.getElementById("modalWaBtn");
+
+        modalHeaderBg.style.cssText = data.bgStyle;
+        modalBadge.textContent = data.badge;
+        modalBadge.className = `port-modal-badge ${data.badgeClass}`;
+
+        modalTags.innerHTML = data.tags.map(t => `<span class="port-tag">${t}</span>`).join("");
+        modalTitle.textContent = data.title;
+        modalUrl.textContent = data.displayUrl;
+        modalUrl.href = data.url;
+        modalDesc.textContent = data.desc;
+
+        modalFeatures.innerHTML = data.features.map(f => `<li>${f}</li>`).join("");
+        modalTechStack.innerHTML = data.techStack.map(t => `<span class="tech-chip">${t}</span>`).join("");
+
+        modalLiveBtn.href = data.url;
+        modalLiveBtn.textContent = data.badge.includes("Play Store") ? "📱 Buka di Play Store" : "🌐 Buka Website Live";
+        modalWaBtn.href = `https://wa.me/6285777203153?text=${data.waMessage}`;
+
+        modal.classList.add("active");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closePortfolioModal() {
+        const modal = document.getElementById("portfolioModal");
+        if (modal) {
+          modal.classList.remove("active");
+          document.body.style.overflow = "";
+        }
+      }
+
+      function closePortfolioModalOnBackdrop(e) {
+        if (e.target.classList.contains("port-modal-overlay")) {
+          closePortfolioModal();
+        }
+      }
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          closePortfolioModal();
+        }
+      });
     </script>
   </body>
 </html>
