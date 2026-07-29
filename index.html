@@ -2868,12 +2868,6 @@
         const nearby = getNearbyObject();
         if (!nearby) return;
 
-        const sectionMap = ["sec-web", "sec-systems", "sec-growth", "sec-academy", "sec-portfolio"];
-        const targetId = sectionMap[nearby.index];
-
-        // Smoothly scroll to section directly on click/interaction
-        scrollToSection(targetId);
-
         const idx = nearby.index;
         switch (idx) {
           case 0:
