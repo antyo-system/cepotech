@@ -822,15 +822,46 @@
       }
 
       @media (max-width: 800px) {
+        .site-header {
+          padding: 10px 14px;
+          margin-bottom: 10px;
+        }
+
+        .site-logo {
+          gap: 6px;
+        }
+
+        .site-logo-badge {
+          font-size: 11px;
+          padding: 5px 8px;
+        }
+
+        .site-title {
+          display: none; /* Hide on mobile so CEPOTECH badge doesn't collide with nav links */
+        }
+
+        .site-nav {
+          gap: 12px;
+        }
+
+        .nav-link {
+          font-size: 14px;
+        }
+
+        .header-cta {
+          font-size: 8px;
+          padding: 6px 10px;
+        }
+
         .mobile-controls {
           display: flex;
           position: absolute;
-          bottom: 15px;
+          bottom: 10px;
           left: 0;
           right: 0;
           z-index: 90;
           margin: 0;
-          padding: 0 15px;
+          padding: 0 10px;
         }
         .controls-hint {
           display: none;
@@ -843,18 +874,20 @@
 
         .game-wrapper {
           width: 100vw;
-          height: 100vh;
-          height: 100dvh;
+          max-width: 100%;
+          height: auto;
+          aspect-ratio: 16 / 9;
           border: none;
           border-radius: 0;
-          box-shadow: none;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
           overflow: hidden;
+          margin-bottom: 15px;
         }
 
         #gameCanvas {
           width: 100%;
           height: 100%;
-          object-fit: cover;
+          object-fit: contain;
         }
 
         .music-toggle {
@@ -862,21 +895,21 @@
         }
 
         .icon-btn {
-          width: 44px;
-          height: 44px;
-          font-size: 20px;
+          width: 40px;
+          height: 40px;
+          font-size: 18px;
         }
 
         .top-bar {
-          padding: 12px;
+          padding: 8px;
         }
 
         .time-toggle {
-          padding: 8px 12px;
+          padding: 6px 10px;
         }
 
         .time-icon {
-          font-size: 16px;
+          font-size: 14px;
         }
 
         .time-label {
@@ -884,13 +917,13 @@
         }
 
         .dialog-overlay {
-          padding: 15px;
+          padding: 10px;
         }
 
         .dialog-box {
-          padding: 18px;
-          margin: 10px;
-          max-height: 70vh;
+          padding: 16px;
+          margin: 5px;
+          max-height: 80vh;
         }
 
         .dialog-title {
@@ -898,93 +931,94 @@
         }
 
         .dialog-content {
-          font-size: 18px;
+          font-size: 17px;
         }
 
         .dialog-btn {
           font-size: 10px;
-          padding: 12px 20px;
-          min-width: 90px;
+          padding: 10px 16px;
+          min-width: 80px;
         }
 
         .whatsapp-btn {
-          padding: 12px 16px;
+          padding: 10px 14px;
           font-size: 9px;
         }
 
         .prompt-icon {
-          width: 28px;
-          height: 28px;
-          font-size: 18px;
+          width: 26px;
+          height: 26px;
+          font-size: 16px;
         }
 
         .prompt-text {
-          font-size: 10px;
-          padding: 8px 12px;
+          font-size: 9px;
+          padding: 6px 10px;
         }
 
         .intro-overlay {
-          padding: 15px;
+          padding: 12px;
         }
 
         .intro-title {
-          font-size: 20px;
-          margin-bottom: 12px;
+          font-size: 18px;
+          margin-bottom: 10px;
         }
 
         .narrative-text {
-          font-size: 18px;
-          min-height: 80px;
-          padding: 15px;
-          margin-bottom: 15px;
+          font-size: 16px;
+          min-height: 70px;
+          padding: 12px;
+          margin-bottom: 12px;
         }
 
         .tutorials {
-          gap: 8px;
-          margin-bottom: 15px;
+          gap: 6px;
+          margin-bottom: 12px;
         }
 
         .tutorial-item {
-          padding: 8px;
-          font-size: 13px;
+          padding: 6px;
+          font-size: 12px;
         }
 
         .tutorial-icon {
-          font-size: 18px;
-          margin-bottom: 3px;
+          font-size: 16px;
+          margin-bottom: 2px;
         }
 
         .start-button {
-          font-size: 12px;
-          padding: 12px 30px;
+          font-size: 11px;
+          padding: 10px 24px;
         }
 
         .ending-text {
-          padding: 20px;
-          max-width: 90vw;
+          padding: 16px;
+          max-width: 92vw;
         }
 
         .ending-text .main {
-          font-size: 22px;
+          font-size: 20px;
         }
       }
 
       @media (max-width: 500px) {
         .mobile-btn {
-          width: 52px;
-          height: 52px;
+          width: 48px;
+          height: 48px;
         }
 
         .mobile-controls {
           gap: 6px;
-          padding: 0 8px;
+          padding: 0 6px;
+          bottom: 8px;
         }
 
         .dialog-title {
           font-size: 10px;
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 5px;
+          flex-direction: row;
+          align-items: center;
+          gap: 6px;
         }
 
         .dialog-buttons {
