@@ -2032,7 +2032,7 @@
           <!-- Card 3: Admin Kembang Seladang -->
           <div class="card-item portfolio-card" data-category="erp">
             <div class="portfolio-thumb-wrapper">
-              <img src="https://s0.wp.com/mshots/v1/https%3A%2F%2Fadminkembangseladang.com?w=1000" alt="Admin Kembang Seladang ERP & POS System" class="portfolio-thumb-img" onerror="this.onerror=null; this.src='/adminkembangseladang-preview.png';" />
+              <img src="/adminkembangseladang-preview.png" alt="Admin Kembang Seladang ERP & POS System" class="portfolio-thumb-img" />
               <div class="thumb-badge erp">⚙️ Web ERP System</div>
             </div>
             <div class="portfolio-content">
@@ -4632,14 +4632,20 @@
           modalBadge.className = `thumb-badge ${data.badgeClass}`;
         }
 
-        // Live iframe vs Live Screenshot API Fallback
-        if (key === 'focusapp') {
+        // Live iframe vs Real Screenshot Image
+        if (key === 'adminkembangseladang') {
+          // Protected ERP Admin dashboard -> render real screenshot image uploaded by user
+          if (modalIframe) modalIframe.style.display = "none";
+          if (modalFallbackImg) {
+            modalFallbackImg.style.display = "block";
+            modalFallbackImg.src = "/adminkembangseladang-preview.png";
+          }
+        } else if (key === 'focusapp') {
           // Play Store blocks iframe embedding via X-Frame-Options: SAMEORIGIN
           if (modalIframe) modalIframe.style.display = "none";
           if (modalFallbackImg) {
             modalFallbackImg.style.display = "block";
-            modalFallbackImg.src = `https://s0.wp.com/mshots/v1/${encodeURIComponent(data.url)}?w=1000`;
-            modalFallbackImg.onerror = () => { modalFallbackImg.src = '/focusapp-preview.png'; };
+            modalFallbackImg.src = `/focusapp-preview.png`;
           }
         } else {
           if (modalIframe) {
