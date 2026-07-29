@@ -3247,8 +3247,8 @@
         }
 
         player.x = Math.max(
-          35,
-          Math.min(CONFIG.GAME_WIDTH - player.width - 35, player.x),
+          10,
+          Math.min(CONFIG.GAME_WIDTH - player.width - 10, player.x),
         );
 
         // ---- JUMP PHYSICS ----
@@ -3808,31 +3808,6 @@
         for (let i = 0; i < 6; i++) {
           ctx.fillRect(620 + i * 25, CONFIG.GROUND_Y + 30, 15, 50);
         }
-
-        drawBoundaryWalls();
-      }
-
-      function drawBoundaryWalls() {
-        // Left Boundary Pillar Wall (at x = 0..32)
-        ctx.fillStyle = "#2a2b45";
-        ctx.fillRect(0, CONFIG.GROUND_Y - 150, 32, 150);
-        ctx.fillStyle = "#3a3b5c";
-        ctx.fillRect(4, CONFIG.GROUND_Y - 146, 24, 142);
-        ctx.fillStyle = "#FFC93C";
-        ctx.fillRect(8, CONFIG.GROUND_Y - 130, 16, 8);
-        ctx.fillStyle = "#FF3B30";
-        ctx.fillRect(10, CONFIG.GROUND_Y - 110, 12, 12);
-
-        // Right Boundary Pillar Wall (at x = CONFIG.GAME_WIDTH - 32..CONFIG.GAME_WIDTH)
-        const rx = CONFIG.GAME_WIDTH - 32;
-        ctx.fillStyle = "#2a2b45";
-        ctx.fillRect(rx, CONFIG.GROUND_Y - 150, 32, 150);
-        ctx.fillStyle = "#3a3b5c";
-        ctx.fillRect(rx + 4, CONFIG.GROUND_Y - 146, 24, 142);
-        ctx.fillStyle = "#FFC93C";
-        ctx.fillRect(rx + 8, CONFIG.GROUND_Y - 130, 16, 8);
-        ctx.fillStyle = "#FF3B30";
-        ctx.fillRect(rx + 10, CONFIG.GROUND_Y - 110, 12, 12);
       }
 
       function drawGrass() {
