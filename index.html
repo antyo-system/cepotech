@@ -855,13 +855,23 @@
 
         .mobile-controls {
           display: flex;
-          position: absolute;
-          bottom: 10px;
-          left: 0;
-          right: 0;
+          position: relative;
+          bottom: auto;
+          left: auto;
+          right: auto;
           z-index: 90;
-          margin: 0;
-          padding: 0 10px;
+          margin: 12px auto 16px auto;
+          padding: 8px 12px;
+          justify-content: center;
+          align-items: center;
+          gap: 12px;
+          background: rgba(20, 22, 48, 0.95);
+          border: 1.5px solid rgba(100, 100, 160, 0.35);
+          border-radius: 16px;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+          max-width: 320px;
+          width: 90%;
+          backdrop-filter: blur(10px);
         }
         .controls-hint {
           display: none;
@@ -1003,15 +1013,19 @@
       }
 
       @media (max-width: 500px) {
+        .header-cta {
+          display: none; /* Hide header CTA button on small mobile screens to keep top navbar clean & spacious */
+        }
+
         .mobile-btn {
           width: 48px;
           height: 48px;
         }
 
         .mobile-controls {
-          gap: 6px;
-          padding: 0 6px;
-          bottom: 8px;
+          gap: 10px;
+          padding: 8px 10px;
+          margin: 10px auto 14px auto;
         }
 
         .dialog-title {
@@ -1870,33 +1884,33 @@
           </button>
         </div>
       </div>
+    </div>
 
-      <div class="mobile-controls">
-        <button
-          class="mobile-btn"
-          id="btnLeft"
-          data-label="◀"
-          aria-label="Gerak Kiri"
-        ></button>
-        <button
-          class="mobile-btn jump"
-          id="btnJump"
-          data-label="⬆"
-          aria-label="Lompat"
-        ></button>
-        <button
-          class="mobile-btn action"
-          id="btnAction"
-          data-label="E"
-          aria-label="Interaksi"
-        ></button>
-        <button
-          class="mobile-btn"
-          id="btnRight"
-          data-label="▶"
-          aria-label="Gerak Kanan"
-        ></button>
-      </div>
+    <div class="mobile-controls">
+      <button
+        class="mobile-btn"
+        id="btnLeft"
+        data-label="◀"
+        aria-label="Gerak Kiri"
+      ></button>
+      <button
+        class="mobile-btn jump"
+        id="btnJump"
+        data-label="⬆"
+        aria-label="Lompat"
+      ></button>
+      <button
+        class="mobile-btn action"
+        id="btnAction"
+        data-label="E"
+        aria-label="Interaksi"
+      ></button>
+      <button
+        class="mobile-btn"
+        id="btnRight"
+        data-label="▶"
+        aria-label="Gerak Kanan"
+      ></button>
     </div>
 
     <p class="controls-hint" id="controlsHint">
