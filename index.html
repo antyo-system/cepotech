@@ -220,6 +220,7 @@
       }
 
       .dialog-box {
+        position: relative;
         background: rgba(36, 36, 68, 0.95);
         backdrop-filter: blur(12px);
         border: 2px solid rgba(100, 100, 160, 0.35);
@@ -233,6 +234,24 @@
         animation: dialogPop 0.2s ease-out;
         max-height: 90vh;
         overflow-y: auto;
+      }
+
+      .dialog-close-btn {
+        position: absolute;
+        top: 8px;
+        right: 12px;
+        background: none;
+        border: none;
+        color: #88ccff;
+        font-size: 24px;
+        cursor: pointer;
+        line-height: 1;
+        font-family: Arial, sans-serif;
+        transition: color 0.2s ease;
+      }
+
+      .dialog-close-btn:hover {
+        color: #ff3b30;
       }
 
       @keyframes dialogPop {
@@ -1712,6 +1731,7 @@
       <!-- Dialog Overlay -->
       <div class="dialog-overlay" id="dialogOverlay">
         <div class="dialog-box">
+          <button class="dialog-close-btn" onclick="closeDialog()">&times;</button>
           <div class="dialog-title">
             <span class="icon" id="dialogIcon">📕</span>
             <span id="dialogTitle">Judul</span>
